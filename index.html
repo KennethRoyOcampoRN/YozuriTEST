@@ -206,17 +206,34 @@
         const { useState, useEffect, useMemo } = React;
 
         const foodDatabase = {
+            // General & Traditional Foods
             "White Rice, Cooked (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 45, protein: 4.3, fat: 0.4, cals: 205 },
             "White Rice, Cooked (Grams)": { baseAmount: 100, unit: 'g', carbs: 28, protein: 2.7, fat: 0.3, cals: 130 },
             "Brown Rice, Cooked (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 52, protein: 5.5, fat: 1.8, cals: 248 },
             "Chicken Breast, Cooked (Grams)": { baseAmount: 100, unit: 'g', carbs: 0, protein: 31, fat: 3.6, cals: 165 },
             "Pork Adobo (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 10, protein: 28, fat: 36, cals: 490 },
             "Chicken Adobo (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 9, protein: 26, fat: 22, cals: 345 },
+            "Pork Sinigang (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 8, protein: 20, fat: 15, cals: 250 },
+            "Lechon Kawali (100g)": { baseAmount: 100, unit: 'g', carbs: 0, protein: 16, fat: 35, cals: 390 },
             "Egg, Boiled (Large)": { baseAmount: 1, unit: 'pc', carbs: 0.6, protein: 6.3, fat: 5.3, cals: 77 },
             "Bangus, Fried (Grams)": { baseAmount: 100, unit: 'g', carbs: 0, protein: 20, fat: 11, cals: 180 },
             "Kangkong (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 3.1, protein: 2.6, fat: 0.2, cals: 19 },
             "Mongo Soup (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 25, protein: 9, fat: 1, cals: 145 },
-            "Pandesal (1 Piece)": { baseAmount: 1, unit: 'pc', carbs: 17, protein: 2.5, fat: 1, cals: 85 }
+            "Pandesal (1 Piece)": { baseAmount: 1, unit: 'pc', carbs: 17, protein: 2.5, fat: 1, cals: 85 },
+            "Taho (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 35, protein: 6, fat: 2, cals: 180 },
+            
+            // MyFitnessPal / Fast Food / Commercial Extraction Data
+            "Jollibee Chickenjoy (1 pc)": { baseAmount: 1, unit: 'pc', carbs: 15, protein: 18, fat: 21, cals: 320 },
+            "Jollibee Jolly Spaghetti": { baseAmount: 1, unit: 'pc', carbs: 50, protein: 12, fat: 9, cals: 330 },
+            "Mang Inasal PM1 Pecho": { baseAmount: 1, unit: 'pc', carbs: 10, protein: 55, fat: 30, cals: 530 },
+            "McDonald's Cheeseburger": { baseAmount: 1, unit: 'pc', carbs: 33, protein: 15, fat: 12, cals: 300 },
+            "McDonald's French Fries (Medium)": { baseAmount: 1, unit: 'pc', carbs: 43, protein: 4, fat: 15, cals: 320 },
+            "Chowking Pork Chao Fan": { baseAmount: 1, unit: 'pc', carbs: 70, protein: 15, fat: 20, cals: 520 },
+            "Lucky Me! Pancit Canton (1 pack)": { baseAmount: 1, unit: 'pc', carbs: 42, protein: 8, fat: 16, cals: 350 },
+            "Piattos Sour Cream (85g bag)": { baseAmount: 1, unit: 'pc', carbs: 50, protein: 4, fat: 26, cals: 450 },
+            "SkyFlakes Crackers (1 pack/25g)": { baseAmount: 1, unit: 'pc', carbs: 17, protein: 2, fat: 5, cals: 120 },
+            "San Marino Corned Tuna (180g can)": { baseAmount: 1, unit: 'pc', carbs: 2, protein: 26, fat: 14, cals: 240 },
+            "C2 Green Tea Apple (350ml)": { baseAmount: 1, unit: 'pc', carbs: 35, protein: 0, fat: 0, cals: 140 }
         };
 
         const App = () => {
@@ -406,25 +423,25 @@
                 <div className="glass-nav sticky top-0 z-50 px-6 py-4 mb-6">
                     <div className="max-w-2xl mx-auto flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            {/* Dashboard Back Buttons placed strategically here */}
+                            {/* iOS Style Back Buttons */}
                             {step > 1 && step < 4 && !quickTrackerActive && (
-                                <button onClick={() => setStep(step - 1)} className="text-blue-600 font-bold no-print flex items-center gap-1 hover:text-blue-800 transition">
-                                    <i className="lucide-chevron-left w-4 h-4"></i> Back
+                                <button onClick={() => setStep(step - 1)} className="text-blue-500 font-semibold text-lg no-print flex items-center hover:opacity-70 transition-opacity">
+                                    <i className="lucide-chevron-left w-6 h-6 -ml-2"></i> Back
                                 </button>
                             )}
                             {step === 5 && (
-                                <button onClick={() => setStep(1)} className="text-blue-600 font-bold no-print flex items-center gap-1 hover:text-blue-800 transition">
-                                    <i className="lucide-chevron-left w-4 h-4"></i> Back
+                                <button onClick={() => setStep(1)} className="text-blue-500 font-semibold text-lg no-print flex items-center hover:opacity-70 transition-opacity">
+                                    <i className="lucide-chevron-left w-6 h-6 -ml-2"></i> Back
                                 </button>
                             )}
                             {step === 4 && quickTrackerActive && (
-                                <button onClick={() => { setQuickTrackerActive(false); setStep(5); }} className="text-blue-600 font-bold no-print flex items-center gap-1 hover:text-blue-800 transition">
-                                    <i className="lucide-chevron-left w-4 h-4"></i> Back
+                                <button onClick={() => { setQuickTrackerActive(false); setStep(5); }} className="text-blue-500 font-semibold text-lg no-print flex items-center hover:opacity-70 transition-opacity">
+                                    <i className="lucide-chevron-left w-6 h-6 -ml-2"></i> Back
                                 </button>
                             )}
                             {step === 4 && !quickTrackerActive && (
-                                <button onClick={() => setStep(3)} className="text-blue-600 font-bold no-print flex items-center gap-1 hover:text-blue-800 transition">
-                                    <i className="lucide-chevron-left w-4 h-4"></i> Back
+                                <button onClick={() => setStep(3)} className="text-blue-500 font-semibold text-lg no-print flex items-center hover:opacity-70 transition-opacity">
+                                    <i className="lucide-chevron-left w-6 h-6 -ml-2"></i> Back
                                 </button>
                             )}
                             <div>

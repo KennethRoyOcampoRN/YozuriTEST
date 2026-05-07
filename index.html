@@ -100,7 +100,8 @@
             .no-print { display: none !important; }
             .print-only { display: block !important; }
             
-            #dashboard-content { space-y: 0 !important; display: flex; flex-direction: column; gap: 4px !important; height: 100%; max-height: 290mm; overflow: hidden; }
+            /* Removed dangerous height/overflow hidden restrictions to prevent silent truncation */
+            #dashboard-content { space-y: 0 !important; display: flex; flex-direction: column; gap: 4px !important; width: 100% !important; }
             .pb-20 { padding-bottom: 0 !important; }
             .ios-card { 
                 box-shadow: none !important; 
@@ -199,10 +200,32 @@
                 color: #000 !important; 
             }
 
-            /* Compress Lists & Exercises */
-            ul.space-y-4 { margin: 0 !important; padding-left: 14px !important; }
-            ul.space-y-4 > li { margin-top: 1px !important; margin-bottom: 2px !important; padding: 0 !important; display: list-item !important; list-style-type: disc !important; }
-            ul.space-y-4 > li > div.w-2 { display: none !important; } 
+            /* Compress Health Guidelines into 2 columns to save massive vertical space */
+            .print-health-list { 
+                display: grid !important; 
+                grid-template-columns: 1fr 1fr !important; 
+                gap: 4px 12px !important; 
+                margin: 0 !important; 
+                padding-left: 0 !important; 
+            }
+            .print-health-list > li { 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                display: flex !important; 
+                list-style-type: none !important; 
+                font-size: 7.5pt !important; 
+                line-height: 1.15 !important;
+            }
+            .print-health-list > li > div.w-2 { 
+                display: block !important; 
+                width: 4px !important; 
+                height: 4px !important; 
+                margin-top: 4px !important; 
+                margin-right: 6px !important; 
+            }
+
+            .print-instructions-list { margin: 0 !important; padding-left: 12px !important; }
+            .print-instructions-list li { font-size: 7pt !important; line-height: 1.1 !important; margin-bottom: 2px !important; }
             
             /* Flatten grid for exercises */
             .exercise-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 4px !important; }
@@ -218,12 +241,32 @@
             #exercise-plan-container .p-2 { padding: 2px !important; border-width: 1px !important; }
             #exercise-plan-container h4 { margin-bottom: 1px !important; padding-bottom: 1px !important; }
             
-            /* Force 3x3 extremely compact grid for images to fit PDF */
-            .exercise-img-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 3px !important; }
-            .exercise-card-print { padding: 2px !important; }
-            .exercise-card-print img { height: 42px !important; margin-bottom: 1px !important; border: none !important; }
-            .exercise-card-print .truncate { font-size: 6.5pt !important; white-space: normal !important; overflow: visible !important; line-height: 1 !important; margin-bottom: 1px !important; }
-            .exercise-card-print .text-\\[9px\\], .exercise-card-print .md\\:text-\\[10px\\] { font-size: 5.5pt !important; }
+            /* Text-Only Print List for Visual Guide */
+            .exercise-img-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
+            .exercise-card-print { 
+                flex-direction: row !important; 
+                justify-content: space-between !important; 
+                align-items: center !important; 
+                padding: 2px 0 !important; 
+                border: none !important; 
+                border-bottom: 1px dashed #ccc !important; 
+                border-radius: 0 !important; 
+                background: transparent !important; 
+                box-shadow: none !important; 
+                margin-bottom: 0 !important; 
+            }
+            .exercise-card-print:last-child { border-bottom: none !important; }
+            .exercise-card-print .exercise-img { display: none !important; }
+            .exercise-card-print > div { flex-direction: row !important; justify-content: space-between !important; width: 100% !important; align-items: center !important; }
+            .exercise-card-print .truncate { white-space: normal !important; overflow: visible !important; text-align: left !important; font-size: 8.5pt !important; margin: 0 !important; font-weight: 600 !important; }
+            .exercise-card-print .font-medium { text-align: right !important; font-size: 8.5pt !important; margin: 0 !important; font-weight: 700 !important; color: #000 !important; }
+
+            /* Compact Schedule Days for Print */
+            .print-schedule-day { padding: 2px 0 !important; border: none !important; border-bottom: 1px solid #eee !important; border-radius: 0 !important; background: transparent !important; }
+            .print-schedule-day:last-child { border-bottom: none !important; }
+            .print-schedule-day .shrink-0 { width: 40px !important; font-size: 8pt !important; }
+            .print-schedule-day .font-bold.uppercase { background: transparent !important; color: black !important; padding: 0 !important; font-size: 8pt !important; }
+            .print-schedule-day .leading-snug { font-size: 7.5pt !important; line-height: 1.1 !important; color: #444 !important; }
         }
         
         .pdf-mode .print-only { display: block !important; }
@@ -325,6 +368,49 @@
             "C2 Green Tea Apple (350ml)": { baseAmount: 1, unit: 'pc', carbs: 35, protein: 0, fat: 0, cals: 140 }
         };
 
+        // ==========================================
+        // EXERCISE WRITTEN GUIDES DICTIONARY
+        // ==========================================
+        const exerciseGuides = {
+            [appImages.intervalWalking]: "Walk at a brisk, challenging pace for 3 minutes, then slow down to a conversational pace for 3 minutes to recover. Keep your chest up and swing your arms.",
+            [appImages.joggingVsRunning]: "Maintain a steady, controlled pace. Focus on landing softly on the mid-foot rather than striking hard with your heels to protect your joints.",
+            [appImages.skaters]: "Leap from side to side, landing on one foot while sweeping the other leg behind you. Keep your core tight to maintain balance.",
+            [appImages.squatBW]: "Keep feet shoulder-width apart. Push your hips back and down as if sitting in a chair. Keep your chest up and ensure your knees don't cave inward.",
+            [appImages.jumpSquat]: "Perform a standard squat, but explode upward dynamically. Land softly on the balls of your feet to absorb the impact.",
+            [appImages.pushupBW]: "Keep your body perfectly straight. Lower yourself until your chest is near the floor, then push back up. Keep elbows tucked slightly, not flared out.",
+            [appImages.pushupKnee]: "Rest on your knees instead of your toes. Keep a straight line from your knees to your shoulders. Lower and push up.",
+            [appImages.pushupWall]: "Stand arm's length from a wall. Place hands flat. Lean in and push back. The further your feet are from the wall, the harder it is.",
+            [appImages.pushupIncline]: "Place hands on an elevated surface like a bench or sturdy chair. Lower your chest to the surface and press up.",
+            [appImages.pushupDiamond]: "Place hands close together so your thumbs and index fingers form a diamond shape. Focuses heavily on the triceps.",
+            [appImages.rowBW]: "Hold onto a sturdy doorframe or pole. Lean back, then pull your chest toward your hands. Squeeze your shoulder blades together.",
+            [appImages.lungeBW]: "Step forward and lower your hips until both knees are bent at a 90-degree angle. Push off the front foot to return to the start.",
+            [appImages.stepUp]: "Step firmly onto a sturdy box or chair. Drive through the heel to lift yourself up. Step back down slowly and softly.",
+            [appImages.accessoryBW]: "Lie on your back with knees bent. Squeeze your glutes and push your hips towards the ceiling. Hold for a second at the top.",
+            [appImages.singleLegBridge]: "Same as a glute bridge, but extend one leg straight out. Push your hips up using only the planted foot.",
+            [appImages.assistedSquat]: "Hold onto a chair, doorframe, or pole for support. Lower into a squat safely, using your arms to help pull you back up if needed.",
+            [appImages.assistedLunge]: "Hold a wall or chair for balance. Step back into a lunge, focusing entirely on proper knee bending rather than balancing.",
+            [appImages.burpees]: "Drop into a squat, jump your feet back to a plank, do a push-up (optional), jump feet forward, and explosively jump straight up.",
+            [appImages.lateralLunge]: "Step widely out to the side. Bend that knee while keeping the other leg perfectly straight. Push back to the center.",
+            [appImages.mountainClimbers]: "Start in a high plank position. Drive your knees toward your chest alternatingly at a quick pace. Keep your hips down.",
+            [appImages.plankVariations]: "Rest on your forearms. Keep your body perfectly straight from head to heels. Squeeze your core and glutes tightly.",
+            [appImages.plankReachUnder]: "In a plank position, lift one arm, reach it under your body, then return it. Resist the urge to let your body twist.",
+            [appImages.tricepDips]: "Use a sturdy chair. Slide your hips off the front. Bend your elbows backward to lower your body, then press back up.",
+            [appImages.squatHeavy]: "Rest one foot behind you on a chair or bench. Lower your back knee straight down, then push up heavily through the front heel.",
+            [appImages.backpackLunge]: "Wear a tightly loaded backpack. Step forward into a lunge, keeping your torso upright against the heavy weight.",
+            [appImages.backpackSquat]: "Wear a loaded backpack securely or bear-hug it in front of you. Perform a slow, deep, controlled squat.",
+            [appImages.gobletSquat]: "Hold a heavy weight or large jug vertically against your chest. Squat down deeply, keeping your elbows inside your knees.",
+            [appImages.pushupDecline]: "Place your feet on an elevated surface (chair or bench). Perform push-ups. This heavily targets the upper chest.",
+            [appImages.backpackPushup]: "Wear a loaded backpack. Perform standard push-ups. Ensure the bag is strapped tight so it doesn't shift and injure you.",
+            [appImages.rowTable]: "Lie underneath a very sturdy table. Grab the edge and pull your chest up to the table. Keep your body completely rigid like a plank.",
+            [appImages.jugRow]: "Bend over, supporting yourself with one hand on a chair. Pull a heavy water jug up toward your hip, squeezing your back muscles.",
+            [appImages.pullup]: "Hang from a secure bar. Pull your chest up to the bar using your back and biceps. Lower down under complete control.",
+            [appImages.suitcaseDeadlift]: "Stand between two heavy objects (like jugs). Hinge at the hips to grab them, then stand up straight. Keep your back completely flat.",
+            [appImages.towelDeadlift]: "Stand on a rolled-up towel holding the ends tightly. Pull upward as hard as you can against the immovable towel for a static muscle contraction.",
+            [appImages.pistolSquat]: "Extend one leg out straight. Lower your body down on the other leg as far as possible, then push back up. Use a wall for balance if required.",
+            [appImages.bicepCurls]: "Hold weights or water jugs. Keep your elbows pinned to your sides and curl the weight up to your shoulders. Squeeze hard at the top.",
+            [appImages.accessoryHeavy]: "Lie on your back with heels on a sliding towel (smooth floor). Bridge up, slide heels away from you, then forcefully pull them back in using your hamstrings."
+        };
+
         const App = () => {
             const [step, setStep] = useState(0); // App starts at Intro
             const [canProceed, setCanProceed] = useState(false);
@@ -349,8 +435,8 @@
             }, []);
 
             useEffect(() => {
-                // Disclaimer timer logic
-                if (step === 0.5) {
+                // Disclaimer timer logic for both Medical and Exercise disclaimers
+                if (step === 0.5 || step === 6) {
                     setCanProceed(false);
                     const timer = setTimeout(() => setCanProceed(true), 3000); // Button appears after 3 seconds
                     return () => clearTimeout(timer);
@@ -610,8 +696,8 @@
                         <h2 className="text-xl md:text-2xl font-medium text-gray-500 max-w-sm mx-auto leading-snug">
                             Clinical Health Optimization Program
                         </h2>
-                        <p className="text-sm font-semibold text-[#007aff] mt-4 tracking-wider uppercase">
-                            By Kenneth Roy Ocampo, RN 2026
+                        <p className="text-xs text-red-600 mt-6 max-w-sm mx-auto leading-relaxed border border-red-200 bg-red-50 p-3 rounded-lg shadow-sm">
+                            <strong>Disclaimer:</strong> All content of this app was researched, written, coded, made, tested and will be constantly updated by <strong>Kenneth Roy Ocampo, RN</strong> based on the needs and sources of YPI employees.
                         </p>
                     </div>
                     
@@ -627,6 +713,12 @@
                             className="w-full bg-white text-[#007aff] border border-[#e5e5ea] text-lg font-semibold py-4 px-6 rounded-2xl shadow-sm hover:bg-gray-50 active:scale-95 transition-all flex justify-between items-center">
                             <span>Quick Calorie Tracker</span>
                             <i className="lucide-zap w-5 h-5 opacity-70"></i>
+                        </button>
+                        <button 
+                            onClick={() => setStep(6)} 
+                            className="w-full bg-white text-emerald-600 border border-[#e5e5ea] text-lg font-semibold py-4 px-6 rounded-2xl shadow-sm hover:bg-emerald-50 active:scale-95 transition-all flex justify-between items-center mt-2">
+                            <span>Exercise Guides</span>
+                            <i className="lucide-play-circle w-5 h-5 opacity-70"></i>
                         </button>
                     </div>
                 </div>
@@ -665,28 +757,77 @@
                 </div>
             );
 
+            const renderExerciseDisclaimer = () => (
+                <div className="max-w-md mx-auto space-y-6 animate-ios-intro mt-12 text-center px-4">
+                    <div className="w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full mx-auto flex items-center justify-center mb-6 shadow-sm border border-emerald-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path>
+                        </svg>
+                    </div>
+                    <h2 className="text-3xl font-bold text-gray-900">Safety & Guidelines</h2>
+                    <div className="bg-white p-6 rounded-2xl border border-emerald-100 shadow-sm text-left space-y-4">
+                        <div className="flex gap-3 items-start">
+                            <div className="text-red-500 mt-0.5">⚠️</div>
+                            <div>
+                                <h4 className="font-bold text-gray-900 text-sm">Warning Symptoms</h4>
+                                <p className="text-gray-600 text-sm mt-1">Stop exercising immediately and seek medical help if you experience dizziness, lightheadedness, chest pain, or severe shortness of breath.</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-3 items-start">
+                            <div className="text-amber-500 mt-0.5">🍎</div>
+                            <div>
+                                <h4 className="font-bold text-gray-900 text-sm">Pre-Workout Fuel</h4>
+                                <p className="text-gray-600 text-sm mt-1">Do not exercise on a completely empty stomach. Ensure you have eaten a light, easily digestible meal 1 to 2 hours before your workout to prevent low blood sugar.</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-3 items-start">
+                            <div className="text-emerald-500 mt-0.5">🔥</div>
+                            <div>
+                                <h4 className="font-bold text-gray-900 text-sm">Always Warm Up</h4>
+                                <p className="text-gray-600 text-sm mt-1">Perform 5-10 minutes of light cardio (like marching in place or arm circles) to prepare your muscles and joints.</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-3 items-start">
+                            <div className="text-emerald-500 mt-0.5">📏</div>
+                            <div>
+                                <h4 className="font-bold text-gray-900 text-sm">Prioritize Proper Form</h4>
+                                <p className="text-gray-600 text-sm mt-1">Quality is better than quantity. Move slowly and with control. If you feel sharp joint pain (not muscle burn), STOP immediately.</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-3 items-start">
+                            <div className="text-blue-500 mt-0.5">💧</div>
+                            <div>
+                                <h4 className="font-bold text-gray-900 text-sm">Stay Hydrated</h4>
+                                <p className="text-gray-600 text-sm mt-1">Drink water before, during, and after your workout to prevent cramping and dizziness.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="h-20 flex items-center justify-center mt-8">
+                        {canProceed ? (
+                            <button 
+                                onClick={() => setStep(7)} 
+                                className="w-full bg-emerald-500 text-white text-lg font-semibold py-4 px-6 rounded-2xl shadow-lg hover:bg-emerald-600 active:scale-95 transition-all animate-ios-intro">
+                                I Understand
+                            </button>
+                        ) : (
+                            <p className="text-sm text-emerald-500 font-medium animate-pulse">Please read safety instructions...</p>
+                        )}
+                    </div>
+                </div>
+            );
+
             const renderHeader = () => (
                 <div className="glass-nav sticky top-0 z-50 px-6 py-4 mb-6">
                     <div className="max-w-2xl mx-auto flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             {/* Stylish iOS Style Back Buttons */}
-                            {step === 0.5 && (
-                                <button onClick={() => setStep(0)} className="flex items-center gap-1 text-[#007aff] bg-[#007aff]/10 hover:bg-[#007aff]/20 active:scale-95 px-3 py-1.5 rounded-full font-semibold transition-all no-print shadow-sm">
-                                    <i className="lucide-chevron-left w-5 h-5 -ml-1"></i> Back
-                                </button>
-                            )}
-                            {step === 1 && (
+                            {(step === 0.5 || step === 1 || step === 5 || step === 6 || step === 7) && (
                                 <button onClick={() => setStep(0)} className="flex items-center gap-1 text-[#007aff] bg-[#007aff]/10 hover:bg-[#007aff]/20 active:scale-95 px-3 py-1.5 rounded-full font-semibold transition-all no-print shadow-sm">
                                     <i className="lucide-chevron-left w-5 h-5 -ml-1"></i> Back
                                 </button>
                             )}
                             {step > 1 && step < 4 && !quickTrackerActive && (
                                 <button onClick={() => setStep(step - 1)} className="flex items-center gap-1 text-[#007aff] bg-[#007aff]/10 hover:bg-[#007aff]/20 active:scale-95 px-3 py-1.5 rounded-full font-semibold transition-all no-print shadow-sm">
-                                    <i className="lucide-chevron-left w-5 h-5 -ml-1"></i> Back
-                                </button>
-                            )}
-                            {step === 5 && (
-                                <button onClick={() => setStep(0)} className="flex items-center gap-1 text-[#007aff] bg-[#007aff]/10 hover:bg-[#007aff]/20 active:scale-95 px-3 py-1.5 rounded-full font-semibold transition-all no-print shadow-sm">
                                     <i className="lucide-chevron-left w-5 h-5 -ml-1"></i> Back
                                 </button>
                             )}
@@ -701,8 +842,8 @@
                                 </button>
                             )}
                             
-                            {/* Hidden on steps 0.5 (Disclaimer) and 1, 2, 3 (Assessment) */}
-                            {(step === 4 || step === 5) && (
+                            {/* Hidden on steps 0.5, 1, 2, 3, 6 */}
+                            {(step === 4 || step === 5 || step === 7) && (
                                 <div>
                                     <p className="text-sm font-bold text-gray-900 mt-1 uppercase tracking-wide">By Kenneth Roy Ocampo, RN 2026</p>
                                     <p className="text-[10px] text-gray-400 mt-0.5">{displayDateTime}</p>
@@ -850,50 +991,6 @@
                 const isHeart = profile.conditions.includes('heart');
                 const isAsthma = profile.conditions.includes('asthma');
                 const isSenior = parseInt(profile.age) >= 60;
-                
-                // Dynamic Weekly Schedule Generator based on Goal & Health Conditions
-                let weeklySchedule = [];
-                if (isHeart) {
-                    weeklySchedule = [
-                        { day: "Day 1", plan: "Interval Walking (IWT)", type: "cardio" },
-                        { day: "Day 2", plan: "Full Rest / Recovery (Cardiac Precaution)", type: "rest" },
-                        { day: "Day 3", plan: "Interval Walking (IWT)", type: "cardio" },
-                        { day: "Day 4", plan: "Full Rest / Recovery", type: "rest" },
-                        { day: "Day 5", plan: "Interval Walking (IWT)", type: "cardio" },
-                        { day: "Day 6", plan: "Full Rest / Recovery", type: "rest" },
-                        { day: "Day 7", plan: "Full Rest / Recovery", type: "rest" }
-                    ];
-                } else if (isAsthma) {
-                    weeklySchedule = [
-                        { day: "Day 1", plan: "Resistance Conditioning", type: "lift" },
-                        { day: "Day 2", plan: "Active Rest (Low-intensity walk)", type: "rest" },
-                        { day: "Day 3", plan: "Interval Walking (IWT)", type: "cardio" },
-                        { day: "Day 4", plan: "Full Rest / Asthma Recovery", type: "rest" },
-                        { day: "Day 5", plan: "Resistance Conditioning", type: "lift" },
-                        { day: "Day 6", plan: "Interval Walking (IWT)", type: "cardio" },
-                        { day: "Day 7", plan: "Full Rest", type: "rest" }
-                    ];
-                } else if (isBulking) {
-                    weeklySchedule = [
-                        { day: "Day 1", plan: "Heavy Resistance Conditioning", type: "lift" },
-                        { day: "Day 2", plan: "Full Rest (Muscle Hypertrophy Recovery)", type: "rest" },
-                        { day: "Day 3", plan: "Heavy Resistance Conditioning", type: "lift" },
-                        { day: "Day 4", plan: "Interval Walking (IWT)", type: "cardio" },
-                        { day: "Day 5", plan: "Heavy Resistance + Power Finishers", type: "lift" },
-                        { day: "Day 6", plan: "Full Rest", type: "rest" },
-                        { day: "Day 7", plan: "Active Recovery (Stretching / Yoga)", type: "rest" }
-                    ];
-                } else { // Weight Loss / Maintenance
-                    weeklySchedule = [
-                        { day: "Day 1", plan: "Resistance + Core Finishers", type: "lift" },
-                        { day: "Day 2", plan: "Interval Walking (IWT)", type: "cardio" },
-                        { day: "Day 3", plan: "Resistance + Core Finishers", type: "lift" },
-                        { day: "Day 4", plan: "Active Rest / Light Walking", type: "rest" },
-                        { day: "Day 5", plan: "Resistance + Core Finishers", type: "lift" },
-                        { day: "Day 6", plan: "Interval Walking (IWT)", type: "cardio" },
-                        { day: "Day 7", plan: "Full Rest", type: "rest" }
-                    ];
-                }
 
                 // Dynamic Exercise Routine Generator
                 let exerciseList = [];
@@ -944,6 +1041,54 @@
                         { img: appImages.pushupDiamond, name: "Diamond Push-up", reps: "3x10" },
                         { img: appImages.accessoryBW, name: "Glute Bridge", reps: "3x15" },
                         { img: appImages.plankVariations, name: "Plank Holds", reps: "3x60s" }
+                    ];
+                }
+
+                // Daily Text Mappers
+                const liftDetails = exerciseList.filter(e => !['Interval Walk', 'Jogging/Cardio'].includes(e.name)).map(e => `${e.name} (${e.reps})`).join(' • ');
+                const cardioDetails = exerciseList.filter(e => ['Interval Walk', 'Jogging/Cardio'].includes(e.name)).map(e => `${e.name} (${e.reps})`).join(' • ') || "Walk (30-45 Mins)";
+                
+                // Dynamic Weekly Schedule Generator based on Goal & Health Conditions
+                let weeklySchedule = [];
+                if (isHeart) {
+                    weeklySchedule = [
+                        { day: "Day 1", plan: "Walk", details: cardioDetails },
+                        { day: "Day 2", plan: "Rest", details: "Full Rest / Recovery (Cardiac Precaution)" },
+                        { day: "Day 3", plan: "Walk", details: cardioDetails },
+                        { day: "Day 4", plan: "Rest", details: "Full Rest / Recovery" },
+                        { day: "Day 5", plan: "Walk", details: cardioDetails },
+                        { day: "Day 6", plan: "Rest", details: "Full Rest / Recovery" },
+                        { day: "Day 7", plan: "Rest", details: "Full Rest / Recovery" }
+                    ];
+                } else if (isAsthma) {
+                    weeklySchedule = [
+                        { day: "Day 1", plan: "Exercise", details: liftDetails },
+                        { day: "Day 2", plan: "Rest", details: "Active Rest (Low-intensity walk)" },
+                        { day: "Day 3", plan: "Walk", details: cardioDetails },
+                        { day: "Day 4", plan: "Rest", details: "Full Rest / Asthma Recovery" },
+                        { day: "Day 5", plan: "Exercise", details: liftDetails },
+                        { day: "Day 6", plan: "Walk", details: cardioDetails },
+                        { day: "Day 7", plan: "Rest", details: "Full Rest" }
+                    ];
+                } else if (isBulking) {
+                    weeklySchedule = [
+                        { day: "Day 1", plan: "Exercise", details: liftDetails },
+                        { day: "Day 2", plan: "Rest", details: "Full Rest (Muscle Hypertrophy Recovery)" },
+                        { day: "Day 3", plan: "Exercise", details: liftDetails },
+                        { day: "Day 4", plan: "Walk", details: cardioDetails },
+                        { day: "Day 5", plan: "Exercise", details: liftDetails },
+                        { day: "Day 6", plan: "Rest", details: "Full Rest" },
+                        { day: "Day 7", plan: "Walk", details: "Active Recovery (Stretching / Yoga)" }
+                    ];
+                } else { // Weight Loss / Maintenance
+                    weeklySchedule = [
+                        { day: "Day 1", plan: "Exercise", details: liftDetails },
+                        { day: "Day 2", plan: "Walk", details: cardioDetails },
+                        { day: "Day 3", plan: "Exercise", details: liftDetails },
+                        { day: "Day 4", plan: "Rest", details: "Active Rest / Light Walking" },
+                        { day: "Day 5", plan: "Exercise", details: liftDetails },
+                        { day: "Day 6", plan: "Walk", details: cardioDetails },
+                        { day: "Day 7", plan: "Rest", details: "Full Rest" }
                     ];
                 }
                 
@@ -1084,7 +1229,8 @@
                             <h3 className="font-semibold text-lg text-red-500 mb-4 flex items-center gap-2">
                                 ⚕️ Clinical Health Teaching & Dietary Interventions
                             </h3>
-                            <ul className="space-y-4 text-gray-800">
+                            {/* Updated to use print-health-list for compact 2-column print layout */}
+                            <ul className="space-y-4 text-gray-800 print-health-list">
                                 {profile.conditions.includes('htn') && (
                                     <li className="flex gap-3"><div className="mt-1 w-2 h-2 rounded-full bg-red-500 shrink-0"></div>
                                     <div><span className="font-semibold text-red-700">Hypertension Management:</span> Follow the DASH (Dietary Approaches to Stop Hypertension) principles. <strong>Actionable step:</strong> Strictly limit daily sodium intake to less than 1,500mg. Avoid common high-sodium Filipino condiments like patis, bagoong, and soy sauce. Increase potassium intake to help blood vessels relax by consuming more Kangkong, Spinach, and Mongo. Monitor blood pressure daily.</div></li>
@@ -1138,11 +1284,16 @@
                                         <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">📅 Weekly Schedule</h4>
                                         <div className="space-y-1.5">
                                             {weeklySchedule.map((day, i) => (
-                                                <div key={i} className="flex items-center p-2 rounded-lg bg-gray-50 border border-gray-100 text-xs">
-                                                    <span className="font-bold text-gray-800 w-14 shrink-0 uppercase">{day.day}</span>
-                                                    <span className={`font-semibold flex-1 ${day.type === 'rest' ? 'text-gray-500' : day.type === 'cardio' ? 'text-blue-600' : 'text-emerald-600'}`}>
-                                                        {day.plan}
-                                                    </span>
+                                                <div key={i} className="flex flex-col p-2 rounded-lg bg-gray-50 border border-gray-100 text-xs print-schedule-day">
+                                                    <div className="flex items-center mb-1 print:mb-0">
+                                                        <span className="font-bold text-gray-800 w-12 shrink-0 uppercase">{day.day}</span>
+                                                        <span className={`font-bold uppercase tracking-wider text-[9px] px-1.5 py-0.5 rounded-sm ${day.plan === 'Rest' ? 'bg-gray-200 text-gray-600' : day.plan === 'Walk' ? 'bg-blue-100 text-blue-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                                                            {day.plan}
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-gray-600 text-[10px] leading-snug">
+                                                        {day.details}
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>
@@ -1150,18 +1301,22 @@
 
                                     <div>
                                         <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">📋 Activity Instructions</h4>
-                                        <ul className="text-[11px] md:text-xs text-gray-600 space-y-2 list-disc pl-4 pr-2">
-                                            <li><strong>Interval Walking (IWT):</strong> 3 mins brisk pace (heavy breathing) followed by 3 mins slow pace (conversational). Repeat 5 times total.</li>
-                                            <li><strong>Resistance Conditioning:</strong> Focus on slow, controlled repetitions to prevent injury. {isBulking ? "Use heavy backpacks/jugs to promote muscle hypertrophy." : "Use bodyweight modifications."}</li>
-                                            <li><strong>Power & Core Finishers:</strong> Perform exercises sequentially as a circuit. Limit rest between exercises to strictly 30-45 seconds.</li>
-                                            <li><strong>Rest Days:</strong> Mandatory for central nervous system recovery. Light stretching or yoga is permitted.</li>
+                                        {/* Updated to use print-instructions-list for tight text spacing */}
+                                        <ul className="text-[11px] md:text-xs text-gray-600 space-y-2 list-disc pl-4 pr-2 print-instructions-list">
+                                            <li><strong>Interval Walking:</strong> Walk fast for 3 minutes (until you are breathing heavily), then walk slowly for 3 minutes to catch your breath. Repeat this 5 times total.</li>
+                                            <li><strong>Strength Exercises:</strong> Do each movement slowly and with control to avoid injury. {isBulking ? "Use a heavy backpack or large water jugs to challenge your muscles." : "Use your body weight. Follow the easier variations in the pictures if needed."}</li>
+                                            <li><strong>Circuit Routine:</strong> Do the exercises one after the other. Try to keep your rest short—only take 30 to 45 seconds of rest before moving to the next exercise.</li>
+                                            <li><strong>Rest Days:</strong> Rest is just as important as exercise! Take the day off to let your body heal. Light stretching or a relaxed walk is okay.</li>
                                         </ul>
                                     </div>
                                 </div>
 
                                 {/* RIGHT COLUMN: Pictures of Exercise */}
                                 <div>
-                                    <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">📸 Visual Reference Guide</h4>
+                                    <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">
+                                        <span className="no-print">📸 Visual Reference Guide</span>
+                                        <span className="print-only">📋 Prescribed Exercises</span>
+                                    </h4>
                                     
                                     <div className="grid grid-cols-2 exercise-img-grid gap-3">
                                         {/* Dynamically mapped based on the 4-tier condition logic above */}
@@ -1169,15 +1324,17 @@
                                             <div 
                                                 key={i} 
                                                 className="border border-gray-200 p-2 rounded-lg flex flex-col items-center text-center bg-gray-50 shadow-sm cursor-pointer hover:shadow-md transition no-print-break exercise-card-print"
-                                                onClick={() => setEnlargedImage(ex.img)}
+                                                onClick={() => setEnlargedImage({ img: ex.img, name: ex.name, guide: exerciseGuides[ex.img] || 'Perform this exercise slowly and with controlled form. Focus on muscle contraction and safety.' })}
                                             >
-                                                <img src={ex.img} alt={ex.name} className="h-24 md:h-32 w-full object-contain bg-white rounded mb-2 border border-gray-100" />
-                                                <div className="text-[10px] md:text-[11px] font-bold leading-tight text-gray-800 w-full truncate">{ex.name}</div>
-                                                <div className="text-[9px] md:text-[10px] font-medium text-gray-500 mt-0.5">{ex.reps}</div>
+                                                <img src={ex.img} alt={ex.name} className="h-24 md:h-32 w-full object-contain bg-white rounded mb-2 border border-gray-100 exercise-img" />
+                                                <div className="flex flex-col print:flex-row print:justify-between print:w-full items-center print:items-end w-full">
+                                                    <div className="text-[10px] md:text-[11px] font-bold leading-tight text-gray-800 w-full truncate print:text-left">{ex.name}</div>
+                                                    <div className="text-[9px] md:text-[10px] font-medium text-gray-500 mt-0.5 print:mt-0 print:text-right">{ex.reps}</div>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
-                                    <p className="text-[10px] text-gray-400 mt-2 text-center italic no-print">* Tap on any image to enlarge</p>
+                                    <p className="text-[10px] text-gray-400 mt-2 text-center italic no-print">* Tap on any image to view written guide</p>
                                 </div>
                             </div>
                         </div>
@@ -1295,6 +1452,85 @@
                 );
             };
 
+            const renderExerciseLibrary = () => {
+                const cardio = [
+                    { img: appImages.intervalWalking, name: "Interval Walk" },
+                    { img: appImages.joggingVsRunning, name: "Jogging" },
+                    { img: appImages.skaters, name: "Skaters" },
+                    { img: appImages.mountainClimbers, name: "Mountain Climbers" },
+                    { img: appImages.burpees, name: "Burpees" }
+                ];
+                
+                const bodyweight = [
+                    { img: appImages.squatBW, name: "Air Squats" },
+                    { img: appImages.jumpSquat, name: "Jump Squats" },
+                    { img: appImages.standardPushupBW || appImages.pushupBW, name: "Standard Push-up" },
+                    { img: appImages.pushupKnee, name: "Knee Push-ups" },
+                    { img: appImages.pushupWall, name: "Wall Push-ups" },
+                    { img: appImages.pushupIncline, name: "Incline Push-ups" },
+                    { img: appImages.pushupDiamond, name: "Diamond Push-ups" },
+                    { img: appImages.rowBW, name: "Doorway Row" },
+                    { img: appImages.lungeBW, name: "Walking Lunge" },
+                    { img: appImages.lateralLunge, name: "Lateral Lunge" },
+                    { img: appImages.assistedLunge, name: "Assisted Lunge" },
+                    { img: appImages.stepUp, name: "Step-ups" },
+                    { img: appImages.accessoryBW, name: "Glute Bridge" },
+                    { img: appImages.singleLegBridge, name: "Single Leg Bridge" },
+                    { img: appImages.assistedSquat, name: "Assisted Squat" },
+                    { img: appImages.plankVariations, name: "Plank Variations" },
+                    { img: appImages.plankReachUnder, name: "Plank Reach" },
+                    { img: appImages.tricepDips, name: "Tricep Dips" }
+                ];
+
+                const weighted = [
+                    { img: appImages.squatHeavy, name: "Bulgarian Split Squat" },
+                    { img: appImages.backpackLunge, name: "Backpack Lunge" },
+                    { img: appImages.backpackSquat, name: "Backpack Squat" },
+                    { img: appImages.gobletSquat, name: "Goblet Squat" },
+                    { img: appImages.pushupDecline, name: "Decline Push-up" },
+                    { img: appImages.backpackPushup, name: "Weighted Push-up" },
+                    { img: appImages.rowTable, name: "Table Row" },
+                    { img: appImages.jugRow, name: "Jug Row" },
+                    { img: appImages.pullup, name: "Pull-ups" },
+                    { img: appImages.suitcaseDeadlift, name: "Suitcase Deadlift" },
+                    { img: appImages.towelDeadlift, name: "Towel Deadlift" },
+                    { img: appImages.pistolSquat, name: "Pistol Squat" },
+                    { img: appImages.bicepCurls, name: "Bicep Curls" },
+                    { img: appImages.accessoryHeavy, name: "Hamstring Curl" }
+                ];
+
+                const renderGrid = (title, items) => (
+                    <div className="mb-8">
+                        <h3 className="font-bold text-lg text-gray-800 mb-3 border-b border-gray-200 pb-2">{title}</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            {items.map((ex, i) => (
+                                <div 
+                                    key={i} 
+                                    className="border border-gray-200 p-2 rounded-lg flex flex-col items-center text-center bg-white shadow-sm cursor-pointer hover:shadow-md transition"
+                                    onClick={() => setEnlargedImage({ img: ex.img, name: ex.name, guide: exerciseGuides[ex.img] || 'Perform this exercise slowly and with controlled form. Focus on muscle contraction and safety.' })}
+                                >
+                                    <img src={ex.img} alt={ex.name} className="h-28 w-full object-contain bg-white rounded mb-2 border border-gray-100" />
+                                    <div className="text-xs font-bold leading-tight text-gray-800 w-full truncate">{ex.name}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+
+                return (
+                    <div className="max-w-2xl mx-auto pb-20 animate-fade-in">
+                        <div className="text-center mb-8">
+                            <h2 className="text-3xl font-extrabold uppercase tracking-widest text-emerald-600">Exercise Library</h2>
+                            <p className="text-gray-500 text-sm mt-2">Tap any image to view written instructions and proper form.</p>
+                        </div>
+                        
+                        {renderGrid("Cardio & Agility", cardio)}
+                        {renderGrid("Bodyweight & Rehab", bodyweight)}
+                        {renderGrid("Weighted & Advanced", weighted)}
+                    </div>
+                );
+            };
+
             return (
                 <div className="min-h-screen relative">
                     {step > 0 && renderHeader()}
@@ -1306,28 +1542,42 @@
                         {step === 3 && renderStep3()}
                         {step === 4 && renderDashboard()}
                         {step === 5 && renderQuickTrackSetup()}
+                        {step === 6 && renderExerciseDisclaimer()}
+                        {step === 7 && renderExerciseLibrary()}
                     </div>
 
-                    {/* Fullscreen Image Lightbox Overlay */}
+                    {/* Fullscreen Image & Guide Lightbox Overlay */}
                     {enlargedImage && (
                         <div 
                             className="fixed inset-0 z-[100] bg-black/90 flex flex-col items-center justify-center p-4 cursor-pointer no-print backdrop-blur-sm"
                             onClick={() => setEnlargedImage(null)}
                         >
-                            {/* The image itself prevents the closing action when clicked */}
-                            <img 
-                                src={enlargedImage} 
-                                alt="Enlarged exercise" 
-                                className="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl cursor-default" 
-                                onClick={(e) => e.stopPropagation()} 
-                            />
+                            <div 
+                                className="bg-white rounded-2xl overflow-hidden max-w-sm w-full shadow-2xl cursor-default flex flex-col animate-ios-intro" 
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <div className="relative bg-gray-100 flex justify-center p-4">
+                                    <img 
+                                        src={enlargedImage.img} 
+                                        alt={enlargedImage.name} 
+                                        className="max-h-[45vh] object-contain rounded-xl" 
+                                    />
+                                </div>
+                                <div className="p-6">
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">{enlargedImage.name}</h3>
+                                    <p className="text-sm text-gray-600 leading-relaxed font-medium">
+                                        {enlargedImage.guide}
+                                    </p>
+                                </div>
+                            </div>
+                            
                             <button 
                                 className="absolute top-6 right-6 text-white bg-black/50 rounded-full p-2 hover:bg-white/20 transition"
                                 onClick={() => setEnlargedImage(null)}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                             </button>
-                            <p className="text-gray-300 mt-4 text-sm tracking-wide">Tap outside to close</p>
+                            <p className="text-gray-300 mt-4 text-sm tracking-wide font-medium">Tap outside to close</p>
                         </div>
                     )}
                 </div>

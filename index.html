@@ -52,6 +52,7 @@
             font-size: 17px;
             transition: border-color 0.2s;
             appearance: none;
+            text-transform: uppercase;
         }
         .ios-input:focus {
             outline: none;
@@ -236,47 +237,47 @@
             extraActive: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=200&q=80',
             
             // Interval Walking & Cardio
-            intervalWalking: './Female_athlete_interval_walking_…_202605071312.jpeg',
-            joggingVsRunning: './Jogging_vs_Running_comparison_202605071312.jpeg',
-            skaters: './Female_athlete_pushing_off_leaping_202605071312.jpeg',
+            intervalWalking: './interval_walking.jpeg',
+            joggingVsRunning: './jogging_vs_running.jpeg',
+            skaters: './skaters.jpeg',
             
             // Exercises (Bodyweight / Weight Loss / Maintenance)
-            squatBW: './Female_athlete_demonstrating_air…_202605071312.jpeg',
-            jumpSquat: './Male_athlete_demonstrating_jump_…_202605071312.jpeg',
-            pushupBW: './Man_demonstrating_push-up_positions_202605071312.jpeg',
-            pushupKnee: './Knee_push-up_instructional_photo_202605071312.jpeg',
-            pushupWall: './Wall_push-up_instructional_photo_202605071312.jpeg',
-            pushupIncline: './Incline_push-up_instructional_photo_202605071312.jpeg',
-            pushupDiamond: './Diamond_Push-up_instructional_photo_202605071312.jpeg',
-            rowBW: './Female_athlete_performing_doorwa…_202605071312.jpeg',
-            lungeBW: './Female_athlete_walking_lunge_ins…_202605071312.jpeg',
-            stepUp: './Female_athlete_performing_step-ups_202605071312.jpeg',
-            accessoryBW: './Glute_Bridge_instructional_photo_202605071312.jpeg',
-            singleLegBridge: './Single-Leg_Bridge_instructional_…_202605071312.jpeg',
-            assistedSquat: './Man_performing_assisted_chair_squat_202605071312.jpeg',
-            assistedLunge: './Man_performing_assisted_lunge_202605071312.jpeg',
-            burpees: './Man_performing_burpee_exercise_202605071312.jpeg',
-            lateralLunge: './Man_performing_lateral_lunge_202605071312.jpeg',
-            mountainClimbers: './Man_performing_mountain_climbers…_202605071312.jpeg',
-            plankVariations: './Plank_variations_instructional_p…_202605071312.jpeg',
-            plankReachUnder: './Plank_Reach-Under_exercise_instr…_202605071312.jpeg',
-            tricepDips: './Tricep_dips_instructional_photo_202605071312.jpeg',
+            squatBW: './air_squat.jpeg',
+            jumpSquat: './jump_squat.jpeg',
+            pushupBW: './standard_pushup.jpeg',
+            pushupKnee: './knee_pushup.jpeg',
+            pushupWall: './wall_pushup.jpeg',
+            pushupIncline: './incline_pushup.jpeg',
+            pushupDiamond: './diamond_pushup.jpeg',
+            rowBW: './doorway_row.jpeg',
+            lungeBW: './walking_lunge.jpeg',
+            stepUp: './step_ups.jpeg',
+            accessoryBW: './glute_bridge.jpeg',
+            singleLegBridge: './single_leg_bridge.jpeg',
+            assistedSquat: './assisted_squat.jpeg',
+            assistedLunge: './assisted_lunge.jpeg',
+            burpees: './burpees.jpeg',
+            lateralLunge: './lateral_lunge.jpeg',
+            mountainClimbers: './mountain_climbers.jpeg',
+            plankVariations: './plank_variations.jpeg',
+            plankReachUnder: './plank_reach_under.jpeg',
+            tricepDips: './tricep_dips.jpeg',
             
             // Exercises (Bulking/Weighted/Advanced)
-            squatHeavy: './Bulgarian_Split_Squat_instructio…_202605071312.jpeg',
-            backpackLunge: './Female_athlete_demonstrating_bac…_202605071312.jpeg',
-            backpackSquat: './Man_performing_backpack_squat_202605071312.jpeg',
-            gobletSquat: './Woman_performing_goblet_squat_202605071312.jpeg',
-            pushupDecline: './Feet-Elevated_Push-up_instructio…_202605071312.jpeg',
-            backpackPushup: './Man_doing_backpack_push-up_202605071312.jpeg',
-            rowTable: './Male_athlete_performing_table_row_202605071312.jpeg',
-            rowJug: './Female_athlete_performing_row_202605071312.jpeg',
-            pullup: './Man_performing_pull-up_exercise_202605071312.jpeg',
-            suitcaseDeadlift: './Man_performing_suitcase_deadlift_202605071312.jpeg',
-            towelDeadlift: './Man_performing_towel_deadlift_202605071312.jpeg',
-            pistolSquat: './Man_performing_pistol_squat_202605071312.jpeg',
-            bicepCurls: './Female_athlete_doing_bicep_curls_202605071312.jpeg',
-            accessoryHeavy: './Female_athlete_towel_hamstring_curl_202605071312.jpeg'
+            squatHeavy: './bulgarian_split_squat.jpeg',
+            backpackLunge: './backpack_lunge.jpeg',
+            backpackSquat: './backpack_squat.jpeg',
+            gobletSquat: './goblet_squat.jpeg',
+            pushupDecline: './decline_pushup.jpeg',
+            backpackPushup: './backpack_pushup.jpeg',
+            rowTable: './table_row.jpeg',
+            rowJug: './jug_row.jpeg',
+            pullup: './pullup.jpeg',
+            suitcaseDeadlift: './suitcase_deadlift.jpeg',
+            towelDeadlift: './towel_deadlift.jpeg',
+            pistolSquat: './pistol_squat.jpeg',
+            bicepCurls: './bicep_curls.jpeg',
+            accessoryHeavy: './towel_hamstring_curl.jpeg'
         };
         // ==========================================
 
@@ -518,6 +519,9 @@
                         <h2 className="text-xl md:text-2xl font-medium text-gray-500 max-w-sm mx-auto leading-snug">
                             Clinical Health Optimization Program
                         </h2>
+                        <p className="text-sm font-semibold text-[#007aff] mt-4 tracking-wider uppercase">
+                            By Kenneth Roy Ocampo, RN 2026
+                        </p>
                     </div>
                     
                     <div className="w-full max-w-sm space-y-4 animate-ios-buttons">
@@ -601,8 +605,8 @@
                                 </button>
                             )}
                             
-                            {/* Hidden on steps 0.5 (Disclaimer), 2 (Goal), and 3 (Health History) */}
-                            {step !== 2 && step !== 3 && step !== 0.5 && (
+                            {/* Hidden on steps 0.5 (Disclaimer) and 1, 2, 3 (Assessment) */}
+                            {step >= 4 && (
                                 <div>
                                     <h1 className="text-lg md:text-xl font-bold tracking-tight text-gray-900 leading-tight">Yozuri Philippines Project -<br className="md:hidden" /> Clinical Health Optimization Program</h1>
                                     <p className="text-xs text-gray-500 font-medium mt-1">By Kenneth Roy Ocampo, RN 2026</p>
@@ -633,19 +637,19 @@
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                        <input className="ios-input" placeholder="First Name" value={profile.firstName} onChange={e => setProfile({...profile, firstName: e.target.value})} />
-                        <input className="ios-input" placeholder="Last Name" value={profile.lastName} onChange={e => setProfile({...profile, lastName: e.target.value})} />
+                        <input className="ios-input" placeholder="FIRST NAME" value={profile.firstName} onChange={e => setProfile({...profile, firstName: e.target.value.toUpperCase()})} />
+                        <input className="ios-input" placeholder="LAST NAME" value={profile.lastName} onChange={e => setProfile({...profile, lastName: e.target.value.toUpperCase()})} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                        <input className="ios-input" type="number" placeholder="Age" value={profile.age} onChange={e => setProfile({...profile, age: e.target.value})} />
+                        <input className="ios-input" type="number" placeholder="AGE" value={profile.age} onChange={e => setProfile({...profile, age: e.target.value})} />
                         <select className="ios-input bg-white" value={profile.gender} onChange={e => setProfile({...profile, gender: e.target.value})}>
-                            <option>Male</option>
-                            <option>Female</option>
+                            <option value="Male">MALE</option>
+                            <option value="Female">FEMALE</option>
                         </select>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                        <input className="ios-input" type="number" placeholder="Weight (kg)" value={profile.weight} onChange={e => setProfile({...profile, weight: e.target.value})} />
-                        <input className="ios-input" type="number" placeholder="Height (cm)" value={profile.height} onChange={e => setProfile({...profile, height: e.target.value})} />
+                        <input className="ios-input" type="number" placeholder="WEIGHT (KG)" value={profile.weight} onChange={e => setProfile({...profile, weight: e.target.value})} />
+                        <input className="ios-input" type="number" placeholder="HEIGHT (CM)" value={profile.height} onChange={e => setProfile({...profile, height: e.target.value})} />
                     </div>
                     
                     <div className="mt-8">
@@ -732,7 +736,7 @@
                     </div>
                     <div className="ios-card p-6 text-center">
                         <label className="block text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Your Daily Calorie Target</label>
-                        <input className="ios-input text-center text-4xl font-bold text-purple-700 h-24" type="number" placeholder="e.g. 2000" value={quickTrackerCalories} onChange={e => setQuickTrackerCalories(e.target.value)} />
+                        <input className="ios-input text-center text-4xl font-bold text-purple-700 h-24" type="number" placeholder="E.G. 2000" value={quickTrackerCalories} onChange={e => setQuickTrackerCalories(e.target.value)} />
                         <p className="text-xs text-gray-400 mt-4">Macros will be automatically balanced (50% Carbs, 25% Protein, 25% Fats).</p>
                     </div>
                     <button className="ios-button mt-8 !bg-purple-600" disabled={!quickTrackerCalories || quickTrackerCalories <= 0} onClick={startQuickTracker}>Open Tracker</button>
@@ -1029,16 +1033,16 @@
                                 <h4 className="font-bold text-sm text-purple-700 mb-1">Option 1: Food Database</h4>
                                 <p className="text-xs text-gray-500 mb-3">Select a food to auto-calculate locked macros.</p>
                                 <div className="flex gap-2 mb-3">
-                                    <input list="food-db" className="ios-input !p-2 text-sm flex-1" placeholder="Search database..." value={newFood.name} onChange={e => recalculateFromDb(e.target.value, newFood.amount, newFood.unit)}/>
+                                    <input list="food-db" className="ios-input !p-2 text-sm flex-1" placeholder="SEARCH DATABASE..." value={newFood.name} onChange={e => recalculateFromDb(e.target.value, newFood.amount, newFood.unit)}/>
                                     <datalist id="food-db">
                                         {Object.keys(foodDatabase).map(f => <option key={f} value={f} />)}
                                     </datalist>
                                     
-                                    <input className="ios-input !p-2 text-sm w-16" type="number" placeholder="Amt" value={newFood.amount} onChange={e => recalculateFromDb(newFood.name, e.target.value, newFood.unit)}/>
+                                    <input className="ios-input !p-2 text-sm w-16" type="number" placeholder="AMT" value={newFood.amount} onChange={e => recalculateFromDb(newFood.name, e.target.value, newFood.unit)}/>
                                     <select className="ios-input !p-2 text-sm w-20 bg-gray-50 text-gray-500" value={newFood.unit} disabled>
-                                        <option value="g">g</option>
-                                        <option value="cup">cup</option>
-                                        <option value="pc">pc</option>
+                                        <option value="g">G</option>
+                                        <option value="cup">CUP</option>
+                                        <option value="pc">PC</option>
                                     </select>
                                 </div>
                                 <div className="flex gap-2 items-center bg-gray-50 p-2 rounded-lg">
@@ -1056,8 +1060,8 @@
                                 <h4 className="font-bold text-sm text-blue-600 mb-1">Option 2: Quick Add Calories</h4>
                                 <p className="text-xs text-gray-500 mb-3">Add unlisted foods. Macros will not be tracked, only calories.</p>
                                 <div className="flex gap-2">
-                                    <input className="ios-input !p-2 text-sm flex-1" placeholder="Custom food name..." value={quickFood.name} onChange={e => setQuickFood({...quickFood, name: e.target.value})} />
-                                    <input className="ios-input !p-2 text-sm w-24" type="number" placeholder="Total Kcal" value={quickFood.calories} onChange={e => setQuickFood({...quickFood, calories: e.target.value})} />
+                                    <input className="ios-input !p-2 text-sm flex-1" placeholder="CUSTOM FOOD NAME..." value={quickFood.name} onChange={e => setQuickFood({...quickFood, name: e.target.value.toUpperCase()})} />
+                                    <input className="ios-input !p-2 text-sm w-24" type="number" placeholder="TOTAL KCAL" value={quickFood.calories} onChange={e => setQuickFood({...quickFood, calories: e.target.value})} />
                                     <button className="bg-blue-500 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-600 transition disabled:opacity-50" disabled={!quickFood.name || !quickFood.calories} onClick={logQuickFood}>+</button>
                                 </div>
                             </div>

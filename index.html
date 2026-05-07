@@ -362,6 +362,7 @@
             ];
 
             const conditionsList = [
+                { id: 'none', label: 'None / Generally Healthy', emoji: '✅' },
                 { id: 'asthma', label: 'Asthmatic', emoji: '🫁' },
                 { id: 'htn', label: 'Hypertensive', emoji: '🩸' },
                 { id: 'dm', label: 'Diabetic (Type 2)', emoji: '💧' },
@@ -729,9 +730,16 @@
 
             const renderStep3 = () => {
                 const toggleCondition = (id) => {
-                    const current = profile.conditions;
-                    if(current.includes(id)) setProfile({...profile, conditions: current.filter(c => c !== id)});
-                    else setProfile({...profile, conditions: [...current, id]});
+                    if (id === 'none') {
+                        setProfile({...profile, conditions: ['none']});
+                        return;
+                    }
+                    let current = profile.conditions.filter(c => c !== 'none');
+                    if(current.includes(id)) {
+                        setProfile({...profile, conditions: current.filter(c => c !== id)});
+                    } else {
+                        setProfile({...profile, conditions: [...current, id]});
+                    }
                 };
                 return (
                     <div className="max-w-md mx-auto space-y-4">
@@ -752,7 +760,7 @@
                                 </div>
                             ))}
                         </div>
-                        <button className="ios-button mt-8" onClick={() => setStep(4)}>Generate Plan</button>
+                        <button className="ios-button mt-8" disabled={profile.conditions.length === 0} onClick={() => setStep(4)}>Generate Plan</button>
                     </div>
                 );
             }
@@ -838,7 +846,7 @@
                                 <div><span>Activity Level:</span> {activityLevels.find(a=>a.id===profile.activityLevel)?.label}</div>
                                 <div><span>Target Intake:</span> {stats?.targetCalories} kcal/day</div>
                                 <div className="col-span-2">
-                                    <span>Reported Conditions:</span> {profile.conditions.length > 0 ? profile.conditions.map(c => conditionsList.find(l=>l.id===c).label).join(', ') : 'None Reported'}
+                                    <span>Reported Conditions:</span> {profile.conditions.length > 0 && !profile.conditions.includes('none') ? profile.conditions.map(c => conditionsList.find(l=>l.id===c)?.label).filter(Boolean).join(', ') : 'None Reported'}
                                 </div>
                             </div>
                         </div>
@@ -846,9 +854,9 @@
 
                         {/* Titles */}
                         {!quickTrackerActive ? (
-                            <div className="text-center mb-8 no-print">
-                                <h2 className="text-3xl font-bold">Clinical Optimization Plan</h2>
-                                <p className="text-gray-500 text-lg">Prepared for {profile.firstName} {profile.lastName}</p>
+                            <div className="text-center mb-6 no-print">
+                                <h2 className="text-3xl font-extrabold uppercase tracking-widest text-gray-900">RESULT</h2>
+                                <p className="text-sm font-semibold text-[#007aff] uppercase tracking-wide mt-1">by Kenneth Roy Ocampo, RN 2026</p>
                             </div>
                         ) : (
                             <div className="text-center mb-8 no-print">
@@ -899,6 +907,15 @@
                                     <p className="text-xl font-bold text-teal-500">{stats.macros.fat}g</p>
                                 </div>
                             </div>
+
+                            {/* Clinical Definitions Box */}
+                            <div className="mt-4 bg-blue-50/50 p-4 rounded-xl border border-blue-100 text-sm text-gray-700 space-y-2">
+                                <h4 className="font-bold text-blue-800 mb-2 uppercase tracking-wide text-xs">📖 Clinical Definitions</h4>
+                                <p><strong className="text-gray-900">BMI (Body Mass Index):</strong> A screening metric to categorize weight relative to height.</p>
+                                <p><strong className="text-gray-900">BMR (Basal Metabolic Rate):</strong> The baseline calories your body burns at rest to maintain vital organ functions.</p>
+                                <p><strong className="text-gray-900">TDEE (Total Daily Energy Expenditure):</strong> Your total daily calorie burn, factoring in your lifestyle and activity level.</p>
+                                <p><strong className="text-gray-900">Target Intake:</strong> Your customized daily calorie goal adjusted for your primary objective.</p>
+                            </div>
                         </div>
                         )}
 
@@ -937,6 +954,10 @@
                                     <span className="macro-title">Fats: </span><span className="macro-value">{stats.macros.fat}g</span>
                                 </div>
                             </div>
+
+                            <div className="text-[7.5pt] text-gray-500 italic leading-tight text-center">
+                                *BMI: Body Mass Index | *BMR: Basal Metabolic Rate (resting) | *TDEE: Total Daily Energy Exp. (with activity) | *Target: Adjusted for clinical goal.
+                            </div>
                         </div>
                         )}
 
@@ -967,7 +988,7 @@
                                     <li className="flex gap-3"><div className="mt-1 w-2 h-2 rounded-full bg-red-500 shrink-0"></div>
                                     <div><span className="font-semibold text-red-700">Hyperuricemia (Gout) Care:</span> Prevent painful gout flare-ups by lowering purine intake. <strong>Actionable step:</strong> Adopt a strict low-purine diet. Avoid all internal organ meats (atay, bato, isaw) and specific purine-rich seafoods like canned sardines and anchovies. Hydrate excessively with water and include low-fat dairy, which has been shown to assist the kidneys in excreting uric acid.</div></li>
                                 )}
-                                {profile.conditions.length === 0 && (
+                                {(profile.conditions.length === 0 || profile.conditions.includes('none')) && (
                                     <li className="flex gap-3"><div className="mt-1 w-2 h-2 rounded-full bg-green-500 shrink-0"></div>
                                     <div><span className="font-semibold text-green-700">General Health Maintenance:</span> Maintain metabolic flexibility. <strong>Actionable step:</strong> Utilize the balanced plate method for every meal—fill half your plate with non-starchy vegetables, one-quarter with complex carbohydrates, and one-quarter with a lean protein source. Ensure adequate daily hydration (min 2L/day).</div></li>
                                 )}
@@ -975,130 +996,78 @@
                         </div>
                         )}
 
-                        {/* Exercise Plan */}
+                        {/* Exercise Plan - PROFESSIONAL SIDE-BY-SIDE LAYOUT */}
                         {!quickTrackerActive && (
-                        <div id="exercise-plan-container" className="ios-card p-6 !mt-2 bg-white relative">
-                            <div className="flex items-center justify-between mb-4">
-                                <h3 className="font-semibold text-lg text-emerald-500 flex items-center gap-2">
+                        <div id="exercise-plan-container" className="ios-card p-6 !mt-2 bg-white relative border border-gray-100">
+                            <div className="flex items-center justify-between mb-4 border-b border-gray-100 pb-3">
+                                <h3 className="font-semibold text-lg text-emerald-600 flex items-center gap-2 uppercase tracking-wide">
                                     💪 Prescribed Exercise Regimen
                                 </h3>
-                                <button id="save-img-btn" onClick={handleSaveExerciseImage} disabled={isSavingImage} className="bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-emerald-100 transition flex items-center gap-1.5 no-print disabled:opacity-50 border border-emerald-200">
-                                    <i className="lucide-image w-4 h-4"></i> {isSavingImage ? 'Saving...' : 'Save Image'}
+                                <button id="save-img-btn" onClick={handleSaveExerciseImage} disabled={isSavingImage} className="bg-[#007aff] text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-blue-600 transition flex items-center gap-1.5 no-print disabled:opacity-50 shadow-md">
+                                    <i className="lucide-download w-4 h-4"></i> {isSavingImage ? 'Saving...' : 'Save Exercise'}
                                 </button>
                             </div>
                             
                             {(profile.conditions.includes('heart') || profile.conditions.includes('asthma')) && (
-                                <div className="bg-amber-50 text-amber-800 p-3 rounded-xl mb-3 text-sm font-medium">
+                                <div className="bg-amber-50 text-amber-800 p-3 rounded-xl mb-4 text-sm font-medium border border-amber-200">
                                     ⚠️ Medical Clearance Required. Stop immediately if experiencing chest pain. Ensure inhaler is present if asthmatic.
                                 </div>
                             )}
 
-                            {/* Weekly Schedule Planner */}
-                            <div className="mb-6">
-                                <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-2">📅 Weekly Schedule</h4>
-                                <div className="space-y-2">
-                                    {weeklySchedule.map((day, i) => (
-                                        <div key={i} className="flex items-center p-2.5 rounded-lg bg-gray-50 border border-gray-100">
-                                            <span className="font-bold text-xs text-gray-800 w-14 shrink-0 uppercase">{day.day}</span>
-                                            <span className={`text-sm font-semibold flex-1 ${day.type === 'rest' ? 'text-gray-500' : day.type === 'cardio' ? 'text-blue-600' : 'text-emerald-600'}`}>
-                                                {day.plan}
-                                            </span>
+                            <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-6">
+                                {/* LEFT COLUMN: List of Activity and Schedule */}
+                                <div className="space-y-5">
+                                    <div>
+                                        <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">📅 Weekly Schedule</h4>
+                                        <div className="space-y-1.5">
+                                            {weeklySchedule.map((day, i) => (
+                                                <div key={i} className="flex items-center p-2 rounded-lg bg-gray-50 border border-gray-100 text-xs">
+                                                    <span className="font-bold text-gray-800 w-14 shrink-0 uppercase">{day.day}</span>
+                                                    <span className={`font-semibold flex-1 ${day.type === 'rest' ? 'text-gray-500' : day.type === 'cardio' ? 'text-blue-600' : 'text-emerald-600'}`}>
+                                                        {day.plan}
+                                                    </span>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="mb-4">
-                                <h4 className="font-bold mb-1">1. Japanese Interval Walking Training (IWT)</h4>
-                                <div className="iwt-block flex flex-col gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
-                                    <div className="flex justify-center items-center no-print w-full bg-white p-2 rounded-xl shadow-sm border border-gray-100">
-                                        <img src={appImages.intervalWalking} alt="Interval Walking" className="w-full max-h-48 object-contain rounded-lg" />
                                     </div>
-                                    <div className="flex-1 flex flex-col justify-center">
-                                        <p className="font-semibold text-sm">The 3x3 Protocol (30 Mins Total)</p>
-                                        <ul className="text-sm text-gray-600 mt-1 list-disc pl-4">
-                                            <li><strong>3 Minutes Brisk:</strong> Walk at 70-80% effort (heavy breathing).</li>
-                                            <li><strong>3 Minutes Slow:</strong> Recovery pace, conversational.</li>
-                                            <li>Repeat 5 times total. Perform 4x a week.</li>
+
+                                    <div>
+                                        <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">📋 Activity Instructions</h4>
+                                        <ul className="text-[11px] md:text-xs text-gray-600 space-y-2 list-disc pl-4 pr-2">
+                                            <li><strong>Interval Walking (IWT):</strong> 3 mins brisk pace (heavy breathing) followed by 3 mins slow pace (conversational). Repeat 5 times total.</li>
+                                            <li><strong>Resistance Conditioning:</strong> Focus on slow, controlled repetitions to prevent injury. {isBulking ? "Use heavy backpacks/jugs to promote muscle hypertrophy." : "Use bodyweight modifications."}</li>
+                                            <li><strong>Power & Core Finishers:</strong> Perform exercises sequentially as a circuit. Limit rest between exercises to strictly 30-45 seconds.</li>
+                                            <li><strong>Rest Days:</strong> Mandatory for central nervous system recovery. Light stretching or yoga is permitted.</li>
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
 
-                            {!profile.conditions.includes('heart') && (
+                                {/* RIGHT COLUMN: Pictures of Exercise */}
                                 <div>
-                                    <h4 className="font-bold mb-1">2. Low-Budget Resistance Conditioning {isBulking && "(Hypertrophy Focus)"}</h4>
-                                    <div className="exercise-grid grid grid-cols-2 gap-4">
-                                        
-                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
-                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
-                                                <img src={isBulking ? appImages.squatHeavy : appImages.squatBW} alt="Squats" className="h-full w-full object-cover" />
+                                    <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">📸 Visual Reference Guide</h4>
+                                    
+                                    <div className="grid grid-cols-3 gap-2">
+                                        {/* Dynamic Generation of the 9 specific exercises for this user's protocol */}
+                                        {[
+                                            { img: appImages.intervalWalking, name: "Interval Walk", reps: "3x3 Protocol" },
+                                            { img: isBulking ? appImages.squatHeavy : appImages.squatBW, name: isBulking ? "Split Squats" : "Air Squats", reps: isBulking ? "3x8-12/leg" : "3x15-20" },
+                                            { img: isBulking ? appImages.pushupDecline : appImages.pushupBW, name: isBulking ? "Decline Push-up" : "Standard Push-up", reps: "3x to failure" },
+                                            { img: isBulking ? appImages.rowTable : appImages.rowBW, name: isBulking ? "Table Row" : "Doorway Row", reps: isBulking ? "3x8-10" : "3x15" },
+                                            { img: isBulking ? appImages.plankReachUnder : appImages.plankVariations, name: isBulking ? "Plank Reach" : "Plank Holds", reps: "3x30-60s" },
+                                            { img: isBulking ? appImages.suitcaseDeadlift : appImages.burpees, name: isBulking ? "Suitcase Deadlift" : "Burpees", reps: isBulking ? "3x10/side" : "3x15" },
+                                            { img: isBulking ? appImages.pullup : appImages.mountainClimbers, name: isBulking ? "Pull-ups" : "Mountain Climbers", reps: isBulking ? "3x to fail" : "3x45s" },
+                                            { img: isBulking ? appImages.backpackPushup : appImages.lateralLunge, name: isBulking ? "Backpack Push-up" : "Lateral Lunges", reps: isBulking ? "3x8-12" : "3x12/leg" },
+                                            { img: isBulking ? appImages.pistolSquat : appImages.jumpSquat, name: isBulking ? "Pistol Squats" : "Jump Squats", reps: isBulking ? "3x5/leg" : "3x15" }
+                                        ].map((ex, i) => (
+                                            <div key={i} className="border border-gray-200 p-1.5 rounded-lg flex flex-col items-center text-center bg-gray-50 shadow-sm">
+                                                <img src={ex.img} alt={ex.name} className="h-14 md:h-16 w-full object-cover rounded mb-1.5 border border-gray-100" />
+                                                <div className="text-[9px] font-bold leading-tight text-gray-800 w-full truncate">{ex.name}</div>
+                                                <div className="text-[8px] font-medium text-gray-500 mt-0.5">{ex.reps}</div>
                                             </div>
-                                            <div className="text-sm font-bold">{isBulking ? "Bulgarian Split Squat" : "Air Squats"}</div>
-                                            <div className="text-xs text-gray-500 mt-1 mb-2">3 sets of {isBulking ? "8-12 / leg" : "15-20"}</div>
-                                        </div>
-                                        
-                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
-                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
-                                                <img src={isBulking ? appImages.pushupDecline : appImages.pushupBW} alt="Pushups" className="h-full w-full object-cover" />
-                                            </div>
-                                            <div className="text-sm font-bold">{isBulking ? "Feet-Elevated Push-ups" : "Standard Push-ups"}</div>
-                                            <div className="text-xs text-gray-500 mt-1 mb-2">3 sets to failure</div>
-                                        </div>
-                                        
-                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
-                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
-                                                <img src={isBulking ? appImages.rowTable : appImages.rowBW} alt="Rows" className="h-full w-full object-cover" />
-                                            </div>
-                                            <div className="text-sm font-bold">{isBulking ? "Table Inverted Row" : "Doorway Rows"}</div>
-                                            <div className="text-xs text-gray-500 mt-1 mb-2">3 sets of {isBulking ? "8-10" : "15 reps"}</div>
-                                        </div>
-                                        
-                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
-                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
-                                                <img src={isBulking ? appImages.plankReachUnder : appImages.plankVariations} alt="Plank" className="h-full w-full object-cover" />
-                                            </div>
-                                            <div className="text-sm font-bold">{isBulking ? "Plank Reach-Unders" : "Plank Variations"}</div>
-                                            <div className="text-xs text-gray-500 mt-1 mb-2">3 sets of 30-60s</div>
-                                        </div>
-                                    </div>
-
-                                    <h4 className="font-bold mb-1 mt-4">3. Power & Core Finishers</h4>
-                                    <div className="exercise-grid grid grid-cols-2 gap-4">
-                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
-                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
-                                                <img src={isBulking ? appImages.suitcaseDeadlift : appImages.burpees} alt="Finisher 1" className="h-full w-full object-cover" />
-                                            </div>
-                                            <div className="text-sm font-bold">{isBulking ? "Suitcase Deadlifts" : "Burpees"}</div>
-                                            <div className="text-xs text-gray-500 mt-1 mb-2">{isBulking ? "3 sets of 10 / side" : "3 sets of 15"}</div>
-                                        </div>
-                                        
-                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
-                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
-                                                <img src={isBulking ? appImages.pullup : appImages.mountainClimbers} alt="Finisher 2" className="h-full w-full object-cover" />
-                                            </div>
-                                            <div className="text-sm font-bold">{isBulking ? "Pull-ups" : "Mountain Climbers"}</div>
-                                            <div className="text-xs text-gray-500 mt-1 mb-2">{isBulking ? "3 sets to failure" : "3 sets of 45 seconds"}</div>
-                                        </div>
-
-                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
-                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
-                                                <img src={isBulking ? appImages.backpackPushup : appImages.lateralLunge} alt="Finisher 3" className="h-full w-full object-cover" />
-                                            </div>
-                                            <div className="text-sm font-bold">{isBulking ? "Backpack Push-ups" : "Lateral Lunges"}</div>
-                                            <div className="text-xs text-gray-500 mt-1 mb-2">{isBulking ? "3 sets of 8-12" : "3 sets of 12 / leg"}</div>
-                                        </div>
-
-                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
-                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
-                                                <img src={isBulking ? appImages.pistolSquat : appImages.jumpSquat} alt="Finisher 4" className="h-full w-full object-cover" />
-                                            </div>
-                                            <div className="text-sm font-bold">{isBulking ? "Pistol Squats" : "Jump Squats"}</div>
-                                            <div className="text-xs text-gray-500 mt-1 mb-2">{isBulking ? "3 sets of 5 / leg" : "3 sets of 15"}</div>
-                                        </div>
+                                        ))}
                                     </div>
                                 </div>
-                            )}
+                            </div>
                         </div>
                         )}
 

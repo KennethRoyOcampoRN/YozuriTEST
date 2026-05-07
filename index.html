@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/lucide-static@0.321.0/font/lucide.min.css" rel="stylesheet">
     <style>
         :root {
@@ -320,6 +321,7 @@
             const [newFood, setNewFood] = useState({ name: '', amount: 1, unit: 'cup', calories: 0, carbs: 0, protein: 0, fat: 0 });
             const [quickFood, setQuickFood] = useState({ name: '', calories: '' });
             const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+            const [isSavingImage, setIsSavingImage] = useState(false);
             const [currentTime, setCurrentTime] = useState(new Date());
             
             const [quickTrackerActive, setQuickTrackerActive] = useState(false);
@@ -494,6 +496,32 @@
                 }, 100);
             };
 
+            const handleSaveExerciseImage = async () => {
+                setIsSavingImage(true);
+                const element = document.getElementById('exercise-plan-container');
+                if (element) {
+                    const btn = document.getElementById('save-img-btn');
+                    if (btn) btn.style.display = 'none'; // Temporarily hide the button from the image
+                    
+                    try {
+                        const canvas = await window.html2canvas(element, { 
+                            scale: 2, 
+                            useCORS: true,
+                            backgroundColor: '#ffffff'
+                        });
+                        const link = document.createElement('a');
+                        link.download = `Exercise_Plan_${profile.firstName || 'Patient'}.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+                    } catch (err) {
+                        console.error("Failed to save image", err);
+                    }
+                    
+                    if (btn) btn.style.display = 'flex'; // Restore button
+                }
+                setIsSavingImage(false);
+            };
+
             const startQuickTracker = () => {
                 if (quickTrackerCalories && quickTrackerCalories > 0) {
                     setQuickTrackerActive(true);
@@ -611,8 +639,7 @@
                             {/* Hidden on steps 0.5 (Disclaimer) and 1, 2, 3 (Assessment) */}
                             {(step === 4 || step === 5) && (
                                 <div>
-                                    <h1 className="text-lg md:text-xl font-bold tracking-tight text-gray-900 leading-tight">Yozuri Philippines Project -<br className="md:hidden" /> Clinical Health Optimization Program</h1>
-                                    <p className="text-xs text-gray-500 font-medium mt-1">By Kenneth Roy Ocampo, RN 2026</p>
+                                    <p className="text-sm font-bold text-gray-900 mt-1 uppercase tracking-wide">By Kenneth Roy Ocampo, RN 2026</p>
                                     <p className="text-[10px] text-gray-400 mt-0.5">{displayDateTime}</p>
                                 </div>
                             )}
@@ -747,6 +774,52 @@
 
             const renderDashboard = () => {
                 const isBulking = profile.goal === 'gain' || profile.goal === 'aggressive_gain';
+                const isHeart = profile.conditions.includes('heart');
+                const isAsthma = profile.conditions.includes('asthma');
+                
+                // Dynamic Weekly Schedule Generator based on Goal & Health Conditions
+                let weeklySchedule = [];
+                if (isHeart) {
+                    weeklySchedule = [
+                        { day: "Day 1", plan: "Interval Walking (IWT)", type: "cardio" },
+                        { day: "Day 2", plan: "Full Rest / Recovery (Cardiac Precaution)", type: "rest" },
+                        { day: "Day 3", plan: "Interval Walking (IWT)", type: "cardio" },
+                        { day: "Day 4", plan: "Full Rest / Recovery", type: "rest" },
+                        { day: "Day 5", plan: "Interval Walking (IWT)", type: "cardio" },
+                        { day: "Day 6", plan: "Full Rest / Recovery", type: "rest" },
+                        { day: "Day 7", plan: "Full Rest / Recovery", type: "rest" }
+                    ];
+                } else if (isAsthma) {
+                    weeklySchedule = [
+                        { day: "Day 1", plan: "Resistance Conditioning", type: "lift" },
+                        { day: "Day 2", plan: "Active Rest (Low-intensity walk)", type: "rest" },
+                        { day: "Day 3", plan: "Interval Walking (IWT)", type: "cardio" },
+                        { day: "Day 4", plan: "Full Rest / Asthma Recovery", type: "rest" },
+                        { day: "Day 5", plan: "Resistance Conditioning", type: "lift" },
+                        { day: "Day 6", plan: "Interval Walking (IWT)", type: "cardio" },
+                        { day: "Day 7", plan: "Full Rest", type: "rest" }
+                    ];
+                } else if (isBulking) {
+                    weeklySchedule = [
+                        { day: "Day 1", plan: "Heavy Resistance Conditioning", type: "lift" },
+                        { day: "Day 2", plan: "Full Rest (Muscle Hypertrophy Recovery)", type: "rest" },
+                        { day: "Day 3", plan: "Heavy Resistance Conditioning", type: "lift" },
+                        { day: "Day 4", plan: "Interval Walking (IWT)", type: "cardio" },
+                        { day: "Day 5", plan: "Heavy Resistance + Power Finishers", type: "lift" },
+                        { day: "Day 6", plan: "Full Rest", type: "rest" },
+                        { day: "Day 7", plan: "Active Recovery (Stretching / Yoga)", type: "rest" }
+                    ];
+                } else { // Weight Loss / Maintenance
+                    weeklySchedule = [
+                        { day: "Day 1", plan: "Resistance + Core Finishers", type: "lift" },
+                        { day: "Day 2", plan: "Interval Walking (IWT)", type: "cardio" },
+                        { day: "Day 3", plan: "Resistance + Core Finishers", type: "lift" },
+                        { day: "Day 4", plan: "Active Rest / Light Walking", type: "rest" },
+                        { day: "Day 5", plan: "Resistance + Core Finishers", type: "lift" },
+                        { day: "Day 6", plan: "Interval Walking (IWT)", type: "cardio" },
+                        { day: "Day 7", plan: "Full Rest", type: "rest" }
+                    ];
+                }
                 
                 return (
                     <div id="dashboard-content" className="max-w-2xl mx-auto space-y-8 pb-20">
@@ -904,16 +977,36 @@
 
                         {/* Exercise Plan */}
                         {!quickTrackerActive && (
-                        <div className="ios-card p-6 !mt-2">
-                            <h3 className="font-semibold text-lg text-emerald-500 mb-4 flex items-center gap-2">
-                                💪 Prescribed Exercise Regimen
-                            </h3>
+                        <div id="exercise-plan-container" className="ios-card p-6 !mt-2 bg-white relative">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="font-semibold text-lg text-emerald-500 flex items-center gap-2">
+                                    💪 Prescribed Exercise Regimen
+                                </h3>
+                                <button id="save-img-btn" onClick={handleSaveExerciseImage} disabled={isSavingImage} className="bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-emerald-100 transition flex items-center gap-1.5 no-print disabled:opacity-50 border border-emerald-200">
+                                    <i className="lucide-image w-4 h-4"></i> {isSavingImage ? 'Saving...' : 'Save Image'}
+                                </button>
+                            </div>
                             
                             {(profile.conditions.includes('heart') || profile.conditions.includes('asthma')) && (
                                 <div className="bg-amber-50 text-amber-800 p-3 rounded-xl mb-3 text-sm font-medium">
                                     ⚠️ Medical Clearance Required. Stop immediately if experiencing chest pain. Ensure inhaler is present if asthmatic.
                                 </div>
                             )}
+
+                            {/* Weekly Schedule Planner */}
+                            <div className="mb-6">
+                                <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-2">📅 Weekly Schedule</h4>
+                                <div className="space-y-2">
+                                    {weeklySchedule.map((day, i) => (
+                                        <div key={i} className="flex items-center p-2.5 rounded-lg bg-gray-50 border border-gray-100">
+                                            <span className="font-bold text-xs text-gray-800 w-14 shrink-0 uppercase">{day.day}</span>
+                                            <span className={`text-sm font-semibold flex-1 ${day.type === 'rest' ? 'text-gray-500' : day.type === 'cardio' ? 'text-blue-600' : 'text-emerald-600'}`}>
+                                                {day.plan}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
 
                             <div className="mb-4">
                                 <h4 className="font-bold mb-1">1. Japanese Interval Walking Training (IWT)</h4>

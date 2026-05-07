@@ -93,51 +93,51 @@
         @media print, .pdf-mode {
             body, .pdf-mode { 
                 background: white !important; 
-                font-size: 9pt !important; 
+                font-size: 8pt !important; 
                 color: black !important;
-                line-height: 1.2 !important;
+                line-height: 1.15 !important;
             }
             .no-print { display: none !important; }
             .print-only { display: block !important; }
             
-            #dashboard-content { space-y: 0 !important; display: flex; flex-direction: column; gap: 6px !important; height: 100%; max-height: 290mm; overflow: hidden; }
+            #dashboard-content { space-y: 0 !important; display: flex; flex-direction: column; gap: 4px !important; height: 100%; max-height: 290mm; overflow: hidden; }
             .pb-20 { padding-bottom: 0 !important; }
             .ios-card { 
                 box-shadow: none !important; 
                 border: 1px solid #ddd !important; 
                 border-radius: 4px !important;
-                padding: 6px 10px !important;
+                padding: 4px 8px !important;
                 margin-bottom: 0 !important;
                 break-inside: avoid;
             }
             .glass-nav { display: none !important; }
             
             h2, h3, h4 { color: black !important; margin-bottom: 2px !important; }
-            h3 { font-size: 10pt !important; border-bottom: 1px solid #eee; padding-bottom: 2px; }
-            h4 { font-size: 9pt !important; font-weight: bold !important; }
-            .text-sm { font-size: 8.5pt !important; }
-            .text-xs { font-size: 7.5pt !important; }
+            h3 { font-size: 9.5pt !important; border-bottom: 1px solid #eee; padding-bottom: 2px; }
+            h4 { font-size: 8.5pt !important; font-weight: bold !important; }
+            .text-sm { font-size: 8pt !important; }
+            .text-xs { font-size: 7pt !important; }
             
             .print-medical-header {
                 border: 2px solid black !important;
-                padding: 10px !important;
-                margin-bottom: 4px !important;
+                padding: 6px !important;
+                margin-bottom: 2px !important;
                 position: relative !important;
             }
             .print-medical-header h1 {
                 text-align: center !important;
                 border-bottom: 2px solid black !important;
-                padding-bottom: 4px !important;
-                margin-bottom: 6px !important;
-                font-size: 14pt !important;
+                padding-bottom: 2px !important;
+                margin-bottom: 4px !important;
+                font-size: 12pt !important;
                 font-weight: bold !important;
                 text-transform: uppercase !important;
             }
             .medical-grid {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
-                gap: 2px !important;
-                font-size: 8.5pt !important;
+                gap: 1px !important;
+                font-size: 8pt !important;
                 width: 100% !important;
             }
             .medical-grid span { font-weight: bold !important; }
@@ -146,30 +146,30 @@
             .professional-print-stats {
                 display: grid !important;
                 grid-template-columns: repeat(4, 1fr) !important;
-                gap: 8px !important;
-                margin-bottom: 8px !important;
+                gap: 4px !important;
+                margin-bottom: 4px !important;
             }
             .professional-print-stats .stat-box {
                 border: 2px solid #000 !important;
-                border-radius: 6px !important;
-                padding: 8px 4px !important;
+                border-radius: 4px !important;
+                padding: 4px 2px !important;
                 text-align: center !important;
             }
             .professional-print-stats .stat-title {
-                font-size: 8pt !important;
+                font-size: 7.5pt !important;
                 font-weight: bold !important;
                 text-transform: uppercase !important;
                 color: #444 !important;
-                margin-bottom: 2px !important;
+                margin-bottom: 1px !important;
             }
             .professional-print-stats .stat-value {
-                font-size: 16pt !important; 
+                font-size: 14pt !important; 
                 font-weight: 900 !important;
                 color: #000 !important;
                 line-height: 1.1 !important;
             }
             .professional-print-stats .stat-value span { 
-                font-size: 8pt !important; 
+                font-size: 7pt !important; 
                 font-weight: normal !important; 
                 display: block !important; 
             }
@@ -178,30 +178,30 @@
             .professional-print-macros {
                 display: grid !important;
                 grid-template-columns: repeat(3, 1fr) !important;
-                gap: 8px !important;
-                margin-bottom: 12px !important;
+                gap: 4px !important;
+                margin-bottom: 4px !important;
             }
             .professional-print-macros .macro-box {
                 border: 1px solid #666 !important;
                 border-radius: 4px !important;
-                padding: 4px !important;
+                padding: 2px !important;
                 text-align: center !important;
                 background-color: transparent !important;
             }
             .professional-print-macros .macro-title { 
-                font-size: 8pt !important; 
+                font-size: 7.5pt !important; 
                 font-weight: bold !important; 
                 color: #555 !important; 
             }
             .professional-print-macros .macro-value { 
-                font-size: 12pt !important; 
+                font-size: 10pt !important; 
                 font-weight: bold !important; 
                 color: #000 !important; 
             }
 
             /* Compress Lists & Exercises */
             ul.space-y-4 { margin: 0 !important; padding-left: 14px !important; }
-            ul.space-y-4 > li { margin-top: 2px !important; margin-bottom: 4px !important; padding: 0 !important; display: list-item !important; list-style-type: disc !important; }
+            ul.space-y-4 > li { margin-top: 1px !important; margin-bottom: 2px !important; padding: 0 !important; display: list-item !important; list-style-type: disc !important; }
             ul.space-y-4 > li > div.w-2 { display: none !important; } 
             
             /* Flatten grid for exercises */
@@ -210,6 +210,20 @@
             .exercise-grid img { height: 60px !important; margin-bottom: 2px !important;}
             .iwt-block { display: flex !important; flex-direction: row !important; padding: 0 !important; gap: 10px !important; border: none !important; background: transparent !important; align-items: center !important;}
             .iwt-block img { height: 40px !important; width: 40px !important;}
+
+            /* 1-PAGE EXERCISE SIDE-BY-SIDE OPTIMIZATIONS */
+            #exercise-plan-container .grid-cols-1 { gap: 4px !important; }
+            #exercise-plan-container .space-y-5 { space-y: 0 !important; display: flex; flex-direction: column; gap: 4px !important; }
+            #exercise-plan-container .space-y-1\\.5 { space-y: 0 !important; display: flex; flex-direction: column; gap: 1px !important; }
+            #exercise-plan-container .p-2 { padding: 2px !important; border-width: 1px !important; }
+            #exercise-plan-container h4 { margin-bottom: 1px !important; padding-bottom: 1px !important; }
+            
+            /* Force 3x3 extremely compact grid for images to fit PDF */
+            .exercise-img-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 3px !important; }
+            .exercise-card-print { padding: 2px !important; }
+            .exercise-card-print img { height: 42px !important; margin-bottom: 1px !important; border: none !important; }
+            .exercise-card-print .truncate { font-size: 6.5pt !important; white-space: normal !important; overflow: visible !important; line-height: 1 !important; margin-bottom: 1px !important; }
+            .exercise-card-print .text-\\[9px\\], .exercise-card-print .md\\:text-\\[10px\\] { font-size: 5.5pt !important; }
         }
         
         .pdf-mode .print-only { display: block !important; }
@@ -533,7 +547,7 @@
                 document.body.classList.add('pdf-mode');
                 
                 const opt = {
-                    margin:       0.2, 
+                    margin:       0.1, // Reduced margin to ensure fit
                     filename:     `CHOP_Report_${profile.firstName}_${profile.lastName}.pdf`,
                     image:        { type: 'jpeg', quality: 0.98 },
                     html2canvas:  { scale: 2, useCORS: true },
@@ -832,8 +846,10 @@
 
             const renderDashboard = () => {
                 const isBulking = profile.goal === 'gain' || profile.goal === 'aggressive_gain';
+                const isLoss = profile.goal === 'loss' || profile.goal === 'aggressive_loss';
                 const isHeart = profile.conditions.includes('heart');
                 const isAsthma = profile.conditions.includes('asthma');
+                const isSenior = parseInt(profile.age) >= 60;
                 
                 // Dynamic Weekly Schedule Generator based on Goal & Health Conditions
                 let weeklySchedule = [];
@@ -876,6 +892,58 @@
                         { day: "Day 5", plan: "Resistance + Core Finishers", type: "lift" },
                         { day: "Day 6", plan: "Interval Walking (IWT)", type: "cardio" },
                         { day: "Day 7", plan: "Full Rest", type: "rest" }
+                    ];
+                }
+
+                // Dynamic Exercise Routine Generator
+                let exerciseList = [];
+                if (isHeart || isAsthma || isSenior) {
+                    exerciseList = [
+                        { img: appImages.intervalWalking, name: "Interval Walk", reps: "3x3 Protocol" },
+                        { img: appImages.assistedSquat, name: "Assisted Chair Squat", reps: "3x12" },
+                        { img: appImages.wallPushup, name: "Wall Push-ups", reps: "3x15" },
+                        { img: appImages.rowBW, name: "Doorway Row", reps: "3x12" },
+                        { img: appImages.assistedLunge, name: "Assisted Lunge", reps: "3x10/leg" },
+                        { img: appImages.accessoryBW, name: "Glute Bridge", reps: "3x15" },
+                        { img: appImages.stepUp, name: "Step-ups", reps: "3x10/leg" },
+                        { img: appImages.plankReachUnder, name: "Plank Reach", reps: "3x30s" },
+                        { img: appImages.singleLegBridge, name: "Single Leg Bridge", reps: "3x10/leg" }
+                    ];
+                } else if (isBulking) {
+                    exerciseList = [
+                        { img: appImages.squatHeavy, name: "Bulgarian Split Squat", reps: "3x8-12/leg" },
+                        { img: appImages.backpackSquat, name: "Backpack Squat", reps: "3x8-12" },
+                        { img: appImages.pushupDecline, name: "Decline Push-up", reps: "3x to failure" },
+                        { img: appImages.rowTable, name: "Table Row", reps: "3x8-10" },
+                        { img: appImages.pullup, name: "Pull-ups", reps: "3x to fail" },
+                        { img: appImages.towelDeadlift, name: "Towel Deadlift", reps: "3x10" },
+                        { img: appImages.pistolSquat, name: "Pistol Squats", reps: "3x5/leg" },
+                        { img: appImages.backpackPushup, name: "Weighted Push-up", reps: "3x8-12" },
+                        { img: appImages.bicepCurls, name: "Bicep Curls", reps: "3x12" }
+                    ];
+                } else if (isLoss) {
+                    exerciseList = [
+                        { img: appImages.joggingVsRunning, name: "Jogging/Cardio", reps: "20-30 Mins" },
+                        { img: appImages.jumpSquat, name: "Jump Squats", reps: "3x15" },
+                        { img: appImages.burpees, name: "Burpees", reps: "3x15" },
+                        { img: appImages.mountainClimbers, name: "Mountain Climbers", reps: "3x45s" },
+                        { img: appImages.pushupKnee, name: "Knee Push-ups", reps: "3x15" },
+                        { img: appImages.skaters, name: "Skaters", reps: "3x20s" },
+                        { img: appImages.rowBW, name: "Doorway Row", reps: "3x15" },
+                        { img: appImages.lateralLunge, name: "Lateral Lunges", reps: "3x12/leg" },
+                        { img: appImages.plankVariations, name: "Plank Variations", reps: "3x45s" }
+                    ];
+                } else {
+                    exerciseList = [
+                        { img: appImages.intervalWalking, name: "Interval Walk", reps: "3x3 Protocol" },
+                        { img: appImages.squatBW, name: "Air Squats", reps: "3x15-20" },
+                        { img: appImages.pushupBW, name: "Standard Push-up", reps: "3x to failure" },
+                        { img: appImages.rowBW, name: "Doorway Row", reps: "3x15" },
+                        { img: appImages.lungeBW, name: "Walking Lunge", reps: "3x12/leg" },
+                        { img: appImages.tricepDips, name: "Tricep Dips", reps: "3x12" },
+                        { img: appImages.pushupDiamond, name: "Diamond Push-up", reps: "3x10" },
+                        { img: appImages.accessoryBW, name: "Glute Bridge", reps: "3x15" },
+                        { img: appImages.plankVariations, name: "Plank Holds", reps: "3x60s" }
                     ];
                 }
                 
@@ -1063,7 +1131,7 @@
                                 </div>
                             )}
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-6 print:gap-3">
                                 {/* LEFT COLUMN: List of Activity and Schedule */}
                                 <div className="space-y-5">
                                     <div>
@@ -1095,22 +1163,12 @@
                                 <div>
                                     <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">📸 Visual Reference Guide</h4>
                                     
-                                    <div className="grid grid-cols-2 gap-3">
-                                        {/* Dynamic Generation of the 9 specific exercises for this user's protocol */}
-                                        {[
-                                            { img: appImages.intervalWalking, name: "Interval Walk", reps: "3x3 Protocol" },
-                                            { img: isBulking ? appImages.squatHeavy : appImages.squatBW, name: isBulking ? "Split Squats" : "Air Squats", reps: isBulking ? "3x8-12/leg" : "3x15-20" },
-                                            { img: isBulking ? appImages.pushupDecline : appImages.pushupBW, name: isBulking ? "Decline Push-up" : "Standard Push-up", reps: "3x to failure" },
-                                            { img: isBulking ? appImages.rowTable : appImages.rowBW, name: isBulking ? "Table Row" : "Doorway Row", reps: isBulking ? "3x8-10" : "3x15" },
-                                            { img: isBulking ? appImages.plankReachUnder : appImages.plankVariations, name: isBulking ? "Plank Reach" : "Plank Holds", reps: "3x30-60s" },
-                                            { img: isBulking ? appImages.suitcaseDeadlift : appImages.burpees, name: isBulking ? "Suitcase Deadlift" : "Burpees", reps: isBulking ? "3x10/side" : "3x15" },
-                                            { img: isBulking ? appImages.pullup : appImages.mountainClimbers, name: isBulking ? "Pull-ups" : "Mountain Climbers", reps: isBulking ? "3x to fail" : "3x45s" },
-                                            { img: isBulking ? appImages.backpackPushup : appImages.lateralLunge, name: isBulking ? "Backpack Push-up" : "Lateral Lunges", reps: isBulking ? "3x8-12" : "3x12/leg" },
-                                            { img: isBulking ? appImages.pistolSquat : appImages.jumpSquat, name: isBulking ? "Pistol Squats" : "Jump Squats", reps: isBulking ? "3x5/leg" : "3x15" }
-                                        ].map((ex, i) => (
+                                    <div className="grid grid-cols-2 exercise-img-grid gap-3">
+                                        {/* Dynamically mapped based on the 4-tier condition logic above */}
+                                        {exerciseList.map((ex, i) => (
                                             <div 
                                                 key={i} 
-                                                className="border border-gray-200 p-2 rounded-lg flex flex-col items-center text-center bg-gray-50 shadow-sm cursor-pointer hover:shadow-md transition no-print-break"
+                                                className="border border-gray-200 p-2 rounded-lg flex flex-col items-center text-center bg-gray-50 shadow-sm cursor-pointer hover:shadow-md transition no-print-break exercise-card-print"
                                                 onClick={() => setEnlargedImage(ex.img)}
                                             >
                                                 <img src={ex.img} alt={ex.name} className="h-24 md:h-32 w-full object-contain bg-white rounded mb-2 border border-gray-100" />

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Yozuri Philippines Project - Clinical Health Optimization Protocol</title>
+    <title>Yozuri Philippines Project - Clinical Health Optimization Program</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,19 @@
             color: var(--apple-text);
             -webkit-font-smoothing: antialiased;
         }
+        /* --- iOS Intro Animations --- */
+        @keyframes iosScaleIn {
+            0% { opacity: 0; transform: scale(0.95) translateY(15px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-ios-intro {
+            animation: iosScaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-ios-buttons {
+            animation: iosScaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+            opacity: 0; /* Starts hidden until delay finishes */
+        }
+        
         .ios-card {
             background-color: var(--apple-card);
             border-radius: 20px;
@@ -209,31 +222,61 @@
 
         // ==========================================
         // APP IMAGES DICTIONARY
-        // These are currently using high-quality web URLs so your app isn't empty.
-        // If you upload your own image files directly to our chat, I can convert 
-        // them to Base64 and replace these links for you!
+        // Pointing directly to your local file uploads.
+        // Keep these images in the same folder as the index.html file 
+        // on your computer or GitHub repo, and they will load perfectly!
+        // Note: Ensure the filenames on your computer match these exactly.
         // ==========================================
         const appImages = {
-            // Activity Levels
+            // Activity Levels (Currently using web links - Upload 5 local photos to replace these!)
             sedentary: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=200&q=80',
             lightlyActive: 'https://images.unsplash.com/photo-1536922246289-88c42f957773?auto=format&fit=crop&w=200&q=80',
             moderatelyActive: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=200&q=80',
             veryActive: 'https://images.unsplash.com/photo-1558611848-73f7eb4001a1?auto=format&fit=crop&w=200&q=80',
             extraActive: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=200&q=80',
             
-            // Interval Walking
-            walkFast: 'https://images.pexels.com/photos/3760323/pexels-photo-3760323.jpeg?auto=compress&cs=tinysrgb&w=300',
-            walkSlow: 'https://images.pexels.com/photos/1105312/pexels-photo-1105312.jpeg?auto=compress&cs=tinysrgb&w=300',
+            // Interval Walking & Cardio
+            intervalWalking: './Female_athlete_interval_walking_…_202605071312.jpeg',
+            joggingVsRunning: './Jogging_vs_Running_comparison_202605071312.jpeg',
+            skaters: './Female_athlete_pushing_off_leaping_202605071312.jpeg',
             
-            // Exercises (Bodyweight)
-            squatBW: 'https://images.pexels.com/photos/4164844/pexels-photo-4164844.jpeg?auto=compress&cs=tinysrgb&w=300',
-            pushupBW: 'https://images.pexels.com/photos/176782/pexels-photo-176782.jpeg?auto=compress&cs=tinysrgb&w=300',
-            rowJug: 'https://images.pexels.com/photos/7915555/pexels-photo-7915555.jpeg?auto=compress&cs=tinysrgb&w=300',
-            plank: 'https://images.pexels.com/photos/4056525/pexels-photo-4056525.jpeg?auto=compress&cs=tinysrgb&w=300',
+            // Exercises (Bodyweight / Weight Loss / Maintenance)
+            squatBW: './Female_athlete_demonstrating_air…_202605071312.jpeg',
+            jumpSquat: './Male_athlete_demonstrating_jump_…_202605071312.jpeg',
+            pushupBW: './Man_demonstrating_push-up_positions_202605071312.jpeg',
+            pushupKnee: './Knee_push-up_instructional_photo_202605071312.jpeg',
+            pushupWall: './Wall_push-up_instructional_photo_202605071312.jpeg',
+            pushupIncline: './Incline_push-up_instructional_photo_202605071312.jpeg',
+            pushupDiamond: './Diamond_Push-up_instructional_photo_202605071312.jpeg',
+            rowBW: './Female_athlete_performing_doorwa…_202605071312.jpeg',
+            lungeBW: './Female_athlete_walking_lunge_ins…_202605071312.jpeg',
+            stepUp: './Female_athlete_performing_step-ups_202605071312.jpeg',
+            accessoryBW: './Glute_Bridge_instructional_photo_202605071312.jpeg',
+            singleLegBridge: './Single-Leg_Bridge_instructional_…_202605071312.jpeg',
+            assistedSquat: './Man_performing_assisted_chair_squat_202605071312.jpeg',
+            assistedLunge: './Man_performing_assisted_lunge_202605071312.jpeg',
+            burpees: './Man_performing_burpee_exercise_202605071312.jpeg',
+            lateralLunge: './Man_performing_lateral_lunge_202605071312.jpeg',
+            mountainClimbers: './Man_performing_mountain_climbers…_202605071312.jpeg',
+            plankVariations: './Plank_variations_instructional_p…_202605071312.jpeg',
+            plankReachUnder: './Plank_Reach-Under_exercise_instr…_202605071312.jpeg',
+            tricepDips: './Tricep_dips_instructional_photo_202605071312.jpeg',
             
-            // Exercises (Bulking/Weighted)
-            squatHeavy: 'https://images.pexels.com/photos/7915555/pexels-photo-7915555.jpeg?auto=compress&cs=tinysrgb&w=300',
-            pushupDecline: 'https://images.pexels.com/photos/176782/pexels-photo-176782.jpeg?auto=compress&cs=tinysrgb&w=300'
+            // Exercises (Bulking/Weighted/Advanced)
+            squatHeavy: './Bulgarian_Split_Squat_instructio…_202605071312.jpeg',
+            backpackLunge: './Female_athlete_demonstrating_bac…_202605071312.jpeg',
+            backpackSquat: './Man_performing_backpack_squat_202605071312.jpeg',
+            gobletSquat: './Woman_performing_goblet_squat_202605071312.jpeg',
+            pushupDecline: './Feet-Elevated_Push-up_instructio…_202605071312.jpeg',
+            backpackPushup: './Man_doing_backpack_push-up_202605071312.jpeg',
+            rowTable: './Male_athlete_performing_table_row_202605071312.jpeg',
+            rowJug: './Female_athlete_performing_row_202605071312.jpeg',
+            pullup: './Man_performing_pull-up_exercise_202605071312.jpeg',
+            suitcaseDeadlift: './Man_performing_suitcase_deadlift_202605071312.jpeg',
+            towelDeadlift: './Man_performing_towel_deadlift_202605071312.jpeg',
+            pistolSquat: './Man_performing_pistol_squat_202605071312.jpeg',
+            bicepCurls: './Female_athlete_doing_bicep_curls_202605071312.jpeg',
+            accessoryHeavy: './Female_athlete_towel_hamstring_curl_202605071312.jpeg'
         };
         // ==========================================
 
@@ -269,7 +312,8 @@
         };
 
         const App = () => {
-            const [step, setStep] = useState(1);
+            const [step, setStep] = useState(0); // App now starts at Intro (Step 0)
+            const [canProceed, setCanProceed] = useState(false);
             const [profile, setProfile] = useState({
                 firstName: '', lastName: '', age: '', gender: 'Male', weight: '', height: '', activityLevel: '1.2', goal: '', conditions: []
             });
@@ -286,6 +330,15 @@
                 const timer = setInterval(() => setCurrentTime(new Date()), 60000);
                 return () => clearInterval(timer);
             }, []);
+
+            useEffect(() => {
+                // Disclaimer timer logic
+                if (step === 0.5) {
+                    setCanProceed(false);
+                    const timer = setTimeout(() => setCanProceed(true), 3000); // Button appears after 3 seconds
+                    return () => clearTimeout(timer);
+                }
+            }, [step]);
 
             const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const timeOptions = { hour: '2-digit', minute: '2-digit' };
@@ -449,18 +502,91 @@
                 }
             };
 
+            const renderIntro = () => (
+                <div className="flex flex-col items-center justify-center min-h-[100dvh] px-6 bg-gradient-to-b from-[#f2f2f7] to-white">
+                    <div className="text-center animate-ios-intro mb-12">
+                        <div className="w-24 h-24 bg-gradient-to-tr from-red-500 to-pink-500 rounded-3xl mx-auto mb-6 shadow-xl flex items-center justify-center text-white border-4 border-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                                <path d="M12 7v6"/>
+                                <path d="M9 10h6"/>
+                            </svg>
+                        </div>
+                        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-3 leading-tight">
+                            Yozuri Philippines
+                        </h1>
+                        <h2 className="text-xl md:text-2xl font-medium text-gray-500 max-w-sm mx-auto leading-snug">
+                            Clinical Health Optimization Program
+                        </h2>
+                    </div>
+                    
+                    <div className="w-full max-w-sm space-y-4 animate-ios-buttons">
+                        <button 
+                            onClick={() => setStep(0.5)} 
+                            className="w-full bg-[#007aff] text-white text-lg font-semibold py-4 px-6 rounded-2xl shadow-lg hover:bg-blue-600 active:scale-95 transition-all flex justify-between items-center">
+                            <span>Clinical Assessment</span>
+                            <i className="lucide-chevron-right w-5 h-5 opacity-70"></i>
+                        </button>
+                        <button 
+                            onClick={() => setStep(5)} 
+                            className="w-full bg-white text-[#007aff] border border-[#e5e5ea] text-lg font-semibold py-4 px-6 rounded-2xl shadow-sm hover:bg-gray-50 active:scale-95 transition-all flex justify-between items-center">
+                            <span>Quick Calorie Tracker</span>
+                            <i className="lucide-zap w-5 h-5 opacity-70"></i>
+                        </button>
+                    </div>
+                </div>
+            );
+
+            const renderDisclaimer = () => (
+                <div className="max-w-md mx-auto space-y-6 animate-ios-intro mt-12 text-center px-4">
+                    <div className="w-20 h-20 bg-red-100 text-red-500 rounded-full mx-auto flex items-center justify-center mb-6">
+                        <i className="lucide-alert-triangle w-10 h-10"></i>
+                    </div>
+                    <h2 className="text-3xl font-bold text-gray-900">Medical Disclaimer</h2>
+                    <div className="bg-white p-6 rounded-2xl border border-red-100 shadow-sm text-left">
+                        <p className="text-gray-700 leading-relaxed font-medium">
+                            Before beginning this or any exercise and nutrition program, it is highly recommended that you seek medical advice from your company nurse or a qualified doctor.
+                        </p>
+                        <p className="text-gray-500 text-sm leading-relaxed mt-4">
+                            By proceeding, you acknowledge that you have consulted a healthcare professional or are participating at your own risk.
+                        </p>
+                    </div>
+                    <div className="h-20 flex items-center justify-center mt-8">
+                        {canProceed ? (
+                            <button 
+                                onClick={() => setStep(1)} 
+                                className="ios-button animate-ios-intro w-full shadow-lg">
+                                Proceed to Assessment
+                            </button>
+                        ) : (
+                            <p className="text-sm text-gray-400 font-medium animate-pulse">Please read the disclaimer carefully...</p>
+                        )}
+                    </div>
+                </div>
+            );
+
             const renderHeader = () => (
                 <div className="glass-nav sticky top-0 z-50 px-6 py-4 mb-6">
                     <div className="max-w-2xl mx-auto flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             {/* Stylish iOS Style Back Buttons */}
+                            {step === 0.5 && (
+                                <button onClick={() => setStep(0)} className="flex items-center gap-1 text-[#007aff] bg-[#007aff]/10 hover:bg-[#007aff]/20 active:scale-95 px-3 py-1.5 rounded-full font-semibold transition-all no-print shadow-sm">
+                                    <i className="lucide-chevron-left w-5 h-5 -ml-1"></i> Back
+                                </button>
+                            )}
+                            {step === 1 && (
+                                <button onClick={() => setStep(0)} className="flex items-center gap-1 text-[#007aff] bg-[#007aff]/10 hover:bg-[#007aff]/20 active:scale-95 px-3 py-1.5 rounded-full font-semibold transition-all no-print shadow-sm">
+                                    <i className="lucide-chevron-left w-5 h-5 -ml-1"></i> Back
+                                </button>
+                            )}
                             {step > 1 && step < 4 && !quickTrackerActive && (
                                 <button onClick={() => setStep(step - 1)} className="flex items-center gap-1 text-[#007aff] bg-[#007aff]/10 hover:bg-[#007aff]/20 active:scale-95 px-3 py-1.5 rounded-full font-semibold transition-all no-print shadow-sm">
                                     <i className="lucide-chevron-left w-5 h-5 -ml-1"></i> Back
                                 </button>
                             )}
                             {step === 5 && (
-                                <button onClick={() => setStep(1)} className="flex items-center gap-1 text-[#007aff] bg-[#007aff]/10 hover:bg-[#007aff]/20 active:scale-95 px-3 py-1.5 rounded-full font-semibold transition-all no-print shadow-sm">
+                                <button onClick={() => setStep(0)} className="flex items-center gap-1 text-[#007aff] bg-[#007aff]/10 hover:bg-[#007aff]/20 active:scale-95 px-3 py-1.5 rounded-full font-semibold transition-all no-print shadow-sm">
                                     <i className="lucide-chevron-left w-5 h-5 -ml-1"></i> Back
                                 </button>
                             )}
@@ -474,11 +600,15 @@
                                     <i className="lucide-chevron-left w-5 h-5 -ml-1"></i> Back
                                 </button>
                             )}
-                            <div>
-                                <h1 className="text-lg md:text-xl font-bold tracking-tight text-gray-900 leading-tight">Yozuri Philippines Project -<br className="md:hidden" /> Clinical Health Optimization Protocol</h1>
-                                <p className="text-xs text-gray-500 font-medium mt-1">By Kenneth Roy Ocampo, RN 2026</p>
-                                <p className="text-[10px] text-gray-400 mt-0.5">{displayDateTime}</p>
-                            </div>
+                            
+                            {/* Hidden on steps 0.5 (Disclaimer), 2 (Goal), and 3 (Health History) */}
+                            {step !== 2 && step !== 3 && step !== 0.5 && (
+                                <div>
+                                    <h1 className="text-lg md:text-xl font-bold tracking-tight text-gray-900 leading-tight">Yozuri Philippines Project -<br className="md:hidden" /> Clinical Health Optimization Program</h1>
+                                    <p className="text-xs text-gray-500 font-medium mt-1">By Kenneth Roy Ocampo, RN 2026</p>
+                                    <p className="text-[10px] text-gray-400 mt-0.5">{displayDateTime}</p>
+                                </div>
+                            )}
                         </div>
                         
                         {step === 4 && !quickTrackerActive && (
@@ -537,12 +667,7 @@
                     </div>
 
                     <button className="ios-button mt-8" disabled={!profile.firstName || !profile.age || !profile.weight || !profile.height} onClick={() => setStep(2)}>Continue to Assessment</button>
-                    
-                    <div className="mt-6 border-t border-gray-200 pt-6">
-                        <button className="w-full bg-purple-100 text-purple-700 font-bold py-4 rounded-xl flex justify-center items-center gap-2 hover:bg-purple-200 transition" onClick={() => setStep(5)}>
-                            ⚡ Skip to Quick Calorie Tracker
-                        </button>
-                    </div>
+                    {/* The Quick Tracker button was removed from here because it's now on the intro page */}
                 </div>
             );
 
@@ -620,10 +745,10 @@
                 return (
                     <div id="dashboard-content" className="max-w-2xl mx-auto space-y-8 pb-20">
                         
-                        {/* Medical Header: Visible ONLY in Print/PDF Mode (Only shows if clinical assessment was taken) */}
+                        {/* Medical Header: Visible ONLY in Print/PDF Mode */}
                         {!quickTrackerActive && (
                         <div className="print-only print-medical-header">
-                            <h1>Yozuri Philippines Project - Clinical Health Optimization Protocol</h1>
+                            <h1>Yozuri Philippines Project - Clinical Health Optimization Program</h1>
                             <div className="medical-grid">
                                 <div><span>Patient Name:</span> {profile.firstName} {profile.lastName}</div>
                                 <div><span>Date & Time:</span> {displayDateTime}</div>
@@ -786,17 +911,9 @@
 
                             <div className="mb-4">
                                 <h4 className="font-bold mb-1">1. Japanese Interval Walking Training (IWT)</h4>
-                                <div className="iwt-block flex flex-col md:flex-row gap-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
-                                    <div className="flex gap-4 justify-center items-center no-print w-full md:w-auto">
-                                        <div className="flex flex-col items-center bg-white p-2 rounded-xl shadow-sm border border-gray-100">
-                                            <img src={appImages.walkFast} alt="Brisk Walk" className="w-20 h-20 object-cover rounded-lg mb-2" />
-                                            <span className="text-xs font-bold text-red-600 mb-1">3 Min Brisk</span>
-                                        </div>
-                                        <span className="text-gray-300 font-bold text-xl">→</span>
-                                        <div className="flex flex-col items-center bg-white p-2 rounded-xl shadow-sm border border-gray-100">
-                                            <img src={appImages.walkSlow} alt="Slow Walk" className="w-20 h-20 object-cover rounded-lg mb-2" />
-                                            <span className="text-xs font-bold text-blue-600 mb-1">3 Min Slow</span>
-                                        </div>
+                                <div className="iwt-block flex flex-col gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                    <div className="flex justify-center items-center no-print w-full bg-white p-2 rounded-xl shadow-sm border border-gray-100">
+                                        <img src={appImages.intervalWalking} alt="Interval Walking" className="w-full max-h-48 object-contain rounded-lg" />
                                     </div>
                                     <div className="flex-1 flex flex-col justify-center">
                                         <p className="font-semibold text-sm">The 3x3 Protocol (30 Mins Total)</p>
@@ -818,32 +935,67 @@
                                             <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
                                                 <img src={isBulking ? appImages.squatHeavy : appImages.squatBW} alt="Squats" className="h-full w-full object-cover" />
                                             </div>
-                                            <div className="text-sm font-bold">{isBulking ? "Heavy Backpack Squats" : "Bodyweight Squats"}</div>
-                                            <div className="text-xs text-gray-500 mt-1 mb-2">3 sets of {isBulking ? "8-12 (Heavy)" : "15-20"}</div>
+                                            <div className="text-sm font-bold">{isBulking ? "Bulgarian Split Squat" : "Air Squats"}</div>
+                                            <div className="text-xs text-gray-500 mt-1 mb-2">3 sets of {isBulking ? "8-12 / leg" : "15-20"}</div>
                                         </div>
                                         
                                         <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
                                             <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
                                                 <img src={isBulking ? appImages.pushupDecline : appImages.pushupBW} alt="Pushups" className="h-full w-full object-cover" />
                                             </div>
-                                            <div className="text-sm font-bold">{isBulking ? "Decline Pushups (Feet on chair)" : "Wall/Floor Pushups"}</div>
+                                            <div className="text-sm font-bold">{isBulking ? "Feet-Elevated Push-ups" : "Standard Push-ups"}</div>
                                             <div className="text-xs text-gray-500 mt-1 mb-2">3 sets to failure</div>
                                         </div>
                                         
                                         <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
                                             <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
-                                                <img src={appImages.rowJug} alt="Rows" className="h-full w-full object-cover" />
+                                                <img src={isBulking ? appImages.rowTable : appImages.rowBW} alt="Rows" className="h-full w-full object-cover" />
                                             </div>
-                                            <div className="text-sm font-bold">Jug Rows (Water Jug)</div>
-                                            <div className="text-xs text-gray-500 mt-1 mb-2">3 sets of {isBulking ? "8-10 (Heavy)" : "15 / arm"}</div>
+                                            <div className="text-sm font-bold">{isBulking ? "Table Inverted Row" : "Doorway Rows"}</div>
+                                            <div className="text-xs text-gray-500 mt-1 mb-2">3 sets of {isBulking ? "8-10" : "15 reps"}</div>
                                         </div>
                                         
                                         <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
                                             <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
-                                                <img src={appImages.plank} alt="Plank" className="h-full w-full object-cover" />
+                                                <img src={isBulking ? appImages.plankReachUnder : appImages.plankVariations} alt="Plank" className="h-full w-full object-cover" />
                                             </div>
-                                            <div className="text-sm font-bold">Knee / Full Planks</div>
+                                            <div className="text-sm font-bold">{isBulking ? "Plank Reach-Unders" : "Plank Variations"}</div>
                                             <div className="text-xs text-gray-500 mt-1 mb-2">3 sets of 30-60s</div>
+                                        </div>
+                                    </div>
+
+                                    <h4 className="font-bold mb-1 mt-4">3. Power & Core Finishers</h4>
+                                    <div className="exercise-grid grid grid-cols-2 gap-4">
+                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
+                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
+                                                <img src={isBulking ? appImages.suitcaseDeadlift : appImages.burpees} alt="Finisher 1" className="h-full w-full object-cover" />
+                                            </div>
+                                            <div className="text-sm font-bold">{isBulking ? "Suitcase Deadlifts" : "Burpees"}</div>
+                                            <div className="text-xs text-gray-500 mt-1 mb-2">{isBulking ? "3 sets of 10 / side" : "3 sets of 15"}</div>
+                                        </div>
+                                        
+                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
+                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
+                                                <img src={isBulking ? appImages.pullup : appImages.mountainClimbers} alt="Finisher 2" className="h-full w-full object-cover" />
+                                            </div>
+                                            <div className="text-sm font-bold">{isBulking ? "Pull-ups" : "Mountain Climbers"}</div>
+                                            <div className="text-xs text-gray-500 mt-1 mb-2">{isBulking ? "3 sets to failure" : "3 sets of 45 seconds"}</div>
+                                        </div>
+
+                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
+                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
+                                                <img src={isBulking ? appImages.backpackPushup : appImages.lateralLunge} alt="Finisher 3" className="h-full w-full object-cover" />
+                                            </div>
+                                            <div className="text-sm font-bold">{isBulking ? "Backpack Push-ups" : "Lateral Lunges"}</div>
+                                            <div className="text-xs text-gray-500 mt-1 mb-2">{isBulking ? "3 sets of 8-12" : "3 sets of 12 / leg"}</div>
+                                        </div>
+
+                                        <div className="border border-gray-200 p-4 rounded-xl flex flex-col items-center text-center bg-gray-50">
+                                            <div className="h-32 flex flex-col items-center justify-center no-print w-full mb-2 bg-white rounded-lg overflow-hidden border border-gray-100 relative">
+                                                <img src={isBulking ? appImages.pistolSquat : appImages.jumpSquat} alt="Finisher 4" className="h-full w-full object-cover" />
+                                            </div>
+                                            <div className="text-sm font-bold">{isBulking ? "Pistol Squats" : "Jump Squats"}</div>
+                                            <div className="text-xs text-gray-500 mt-1 mb-2">{isBulking ? "3 sets of 5 / leg" : "3 sets of 15"}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -935,8 +1087,10 @@
 
             return (
                 <div className="min-h-screen">
-                    {renderHeader()}
-                    <div className="px-6">
+                    {step > 0 && renderHeader()}
+                    <div className={step > 0 ? "px-6" : ""}>
+                        {step === 0 && renderIntro()}
+                        {step === 0.5 && renderDisclaimer()}
                         {step === 1 && renderStep1()}
                         {step === 2 && renderStep2()}
                         {step === 3 && renderStep3()}

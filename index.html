@@ -444,6 +444,9 @@
             
             const [quickTrackerActive, setQuickTrackerActive] = useState(false);
             const [quickTrackerCalories, setQuickTrackerCalories] = useState('');
+            
+            const [foodSearchTerm, setFoodSearchTerm] = useState('');
+            const [showDropdown, setShowDropdown] = useState(false);
 
             useEffect(() => {
                 const timer = setInterval(() => setCurrentTime(new Date()), 60000);
@@ -562,6 +565,13 @@
                 }
             };
 
+            const handleSelectFood = (foodName) => {
+                setFoodSearchTerm(foodName);
+                setShowDropdown(false);
+                const currentAmount = newFood.amount || 1;
+                recalculateFromDb(foodName, currentAmount, foodDatabase[foodName].unit);
+            };
+
             const logDatabaseFood = () => {
                 if(newFood.name && newFood.calories > 0) {
                     setFoodLog([...foodLog, { 
@@ -570,6 +580,7 @@
                         desc: `${newFood.amount}${newFood.unit}`
                     }]);
                     setNewFood({ name: '', amount: 1, unit: 'cup', calories: 0, carbs: 0, protein: 0, fat: 0 });
+                    setFoodSearchTerm('');
                 }
             };
 
@@ -1411,11 +1422,39 @@
                             <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
                                 <h4 className="font-bold text-sm text-purple-700 mb-1">Option 1: Food Database</h4>
                                 <p className="text-xs text-gray-500 mb-3">Select a food to auto-calculate locked macros.</p>
-                                <div className="flex gap-2 mb-3">
-                                    <input list="food-db" className="ios-input !p-2 text-sm flex-1" placeholder="SEARCH DATABASE..." value={newFood.name} onChange={e => recalculateFromDb(e.target.value, newFood.amount, newFood.unit)}/>
-                                    <datalist id="food-db">
-                                        {Object.keys(foodDatabase).map(f => <option key={f} value={f} />)}
-                                    </datalist>
+                                <div className="flex gap-2 mb-3 relative">
+                                    <div className="relative flex-1">
+                                        <input 
+                                            className="ios-input !p-2 text-sm w-full" 
+                                            placeholder="SEARCH DATABASE..." 
+                                            value={foodSearchTerm} 
+                                            onChange={e => {
+                                                setFoodSearchTerm(e.target.value);
+                                                setShowDropdown(true);
+                                                recalculateFromDb(e.target.value, newFood.amount, newFood.unit);
+                                            }}
+                                            onFocus={() => setShowDropdown(true)}
+                                            onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                                        />
+                                        {showDropdown && (
+                                            <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-lg shadow-xl max-h-48 overflow-y-auto mt-1 left-0 text-left">
+                                                {Object.keys(foodDatabase)
+                                                    .filter(f => f.toLowerCase().includes(foodSearchTerm.toLowerCase()))
+                                                    .map(f => (
+                                                    <li 
+                                                        key={f} 
+                                                        className="p-2.5 text-sm text-gray-700 hover:bg-purple-50 cursor-pointer border-b border-gray-100 last:border-0 transition-colors"
+                                                        onClick={() => handleSelectFood(f)}
+                                                    >
+                                                        {f}
+                                                    </li>
+                                                ))}
+                                                {Object.keys(foodDatabase).filter(f => f.toLowerCase().includes(foodSearchTerm.toLowerCase())).length === 0 && (
+                                                    <li className="p-3 text-sm text-gray-400 text-center italic">No foods found.</li>
+                                                )}
+                                            </ul>
+                                        )}
+                                    </div>
                                     
                                     <input className="ios-input !p-2 text-sm w-16" type="number" placeholder="AMT" value={newFood.amount} onChange={e => recalculateFromDb(newFood.name, e.target.value, newFood.unit)}/>
                                     <select className="ios-input !p-2 text-sm w-20 bg-gray-50 text-gray-500" value={newFood.unit} disabled>

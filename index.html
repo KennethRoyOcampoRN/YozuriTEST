@@ -285,7 +285,7 @@
         // Keep these images in the same folder as the index.html file!
         // ==========================================
         const appImages = {
-            // Activity Levels (Currently using web links - Upload 5 local photos to replace these!)
+            // Activity Levels
             sedentary: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=200&q=80',
             lightlyActive: 'https://images.unsplash.com/photo-1536922246289-88c42f957773?auto=format&fit=crop&w=200&q=80',
             moderatelyActive: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=200&q=80',
@@ -367,7 +367,7 @@
             "San Marino Corned Tuna (180g can)": { baseAmount: 1, unit: 'pc', carbs: 2, protein: 26, fat: 14, cals: 240 },
             "C2 Green Tea Apple (350ml)": { baseAmount: 1, unit: 'pc', carbs: 35, protein: 0, fat: 0, cals: 140 },
             
-            // S&R Pizza Data (Macros mathematically estimated based on calories)
+            // S&R Pizza Data
             "S&R Pizza (Cheese) - Large Slice": { baseAmount: 1, unit: 'pc', carbs: 58, protein: 26, fat: 20, cals: 515 },
             "S&R Pizza (Cheese) - Square Slice": { baseAmount: 1, unit: 'pc', carbs: 22, protein: 10, fat: 7, cals: 193 },
             "S&R Pizza (Garlic Shrimp) - Large Slice": { baseAmount: 1, unit: 'pc', carbs: 55, protein: 28, fat: 21, cals: 526 },
@@ -1366,7 +1366,7 @@
                                     {/* QR Code placed at the bottom right of the page for print */}
                                     <div className="print-only mt-auto pt-3 flex justify-end">
                                         <div className="text-center border border-gray-200 p-1.5 rounded-lg bg-white flex flex-col items-center shadow-sm">
-                                            <img src="./qr_access.jpeg" alt="QR Access" className="w-14 h-14 object-contain" />
+                                            <img src="./qr_access.jpg" alt="QR Access" className="w-14 h-14 object-contain" />
                                             <span className="text-[5pt] font-extrabold text-gray-800 mt-1 tracking-widest uppercase">Scan For App</span>
                                         </div>
                                     </div>
@@ -1527,7 +1527,7 @@
                 const bodyweight = [
                     { img: appImages.squatBW, name: "Air Squats" },
                     { img: appImages.jumpSquat, name: "Jump Squats" },
-                    { img: appImages.standardPushupBW || appImages.pushupBW, name: "Standard Push-up" },
+                    { img: appImages.pushupBW, name: "Standard Push-up" },
                     { img: appImages.pushupKnee, name: "Knee Push-ups" },
                     { img: appImages.pushupWall, name: "Wall Push-ups" },
                     { img: appImages.pushupIncline, name: "Incline Push-ups" },

@@ -1339,7 +1339,7 @@
                                 </div>
 
                                 {/* RIGHT COLUMN: Pictures of Exercise */}
-                                <div>
+                                <div className="flex flex-col h-full">
                                     <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">
                                         <span className="no-print">📸 Visual Reference Guide</span>
                                         <span className="print-only">📋 Prescribed Exercises</span>
@@ -1362,6 +1362,14 @@
                                         ))}
                                     </div>
                                     <p className="text-[10px] text-gray-400 mt-2 text-center italic no-print">* Tap on any image to view written guide</p>
+                                    
+                                    {/* QR Code placed at the bottom right of the page for print */}
+                                    <div className="print-only mt-auto pt-3 flex justify-end">
+                                        <div className="text-center border border-gray-200 p-1.5 rounded-lg bg-white flex flex-col items-center shadow-sm">
+                                            <img src="./qr_access.jpeg" alt="QR Access" className="w-14 h-14 object-contain" />
+                                            <span className="text-[5pt] font-extrabold text-gray-800 mt-1 tracking-widest uppercase">Scan For App</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

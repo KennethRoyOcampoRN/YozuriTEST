@@ -1008,7 +1008,27 @@
                         <input className="ios-input text-center text-4xl font-bold text-purple-700 h-24" type="number" placeholder="E.G. 2000" value={quickTrackerCalories} onChange={e => setQuickTrackerCalories(e.target.value)} />
                         <p className="text-xs text-gray-400 mt-4">Macros will be automatically balanced (50% Carbs, 25% Protein, 25% Fats).</p>
                     </div>
-                    <button className="ios-button mt-8 !bg-purple-600" disabled={!quickTrackerCalories || quickTrackerCalories <= 0} onClick={startQuickTracker}>Open Tracker</button>
+                    <button className="ios-button mt-8 !bg-purple-600" disabled={!quickTrackerCalories || quickTrackerCalories <= 0} onClick={startQuickTracker}>Open Yozuri Tracker</button>
+                    
+                    <div className="pt-6 pb-2 relative flex items-center">
+                        <div className="flex-grow border-t border-gray-300"></div>
+                        <span className="flex-shrink-0 mx-4 text-gray-400 text-xs font-bold uppercase tracking-widest">Or Use External App</span>
+                        <div className="flex-grow border-t border-gray-300"></div>
+                    </div>
+
+                    <a 
+                        href="https://www.myfitnesspal.com/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="w-full bg-[#0066EE] text-white text-lg font-semibold py-4 px-6 rounded-2xl shadow-sm hover:bg-blue-700 active:scale-95 transition-all flex justify-center items-center gap-2 no-underline"
+                    >
+                        <span>Open MyFitnessPal</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                    </a>
                 </div>
             );
 

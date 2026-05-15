@@ -101,7 +101,7 @@
             .print-only { display: block !important; }
             
             /* Removed dangerous height/overflow hidden restrictions to prevent silent truncation */
-            #dashboard-content { space-y: 0 !important; display: flex; flex-direction: column; gap: 4px !important; width: 100% !important; }
+            #dashboard-content { display: flex !important; flex-direction: column !important; gap: 4px !important; width: 100% !important; margin-bottom: 0 !important;}
             .pb-20 { padding-bottom: 0 !important; }
             .ios-card { 
                 box-shadow: none !important; 
@@ -226,18 +226,9 @@
 
             .print-instructions-list { margin: 0 !important; padding-left: 12px !important; }
             .print-instructions-list li { font-size: 7pt !important; line-height: 1.1 !important; margin-bottom: 2px !important; }
-            
-            /* Flatten grid for exercises */
-            .exercise-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 4px !important; }
-            .exercise-grid > div { padding: 4px !important; border: none !important; }
-            .exercise-grid img { height: 60px !important; margin-bottom: 2px !important;}
-            .iwt-block { display: flex !important; flex-direction: row !important; padding: 0 !important; gap: 10px !important; border: none !important; background: transparent !important; align-items: center !important;}
-            .iwt-block img { height: 40px !important; width: 40px !important;}
 
             /* 1-PAGE EXERCISE SIDE-BY-SIDE OPTIMIZATIONS */
             #exercise-plan-container .grid-cols-1 { gap: 4px !important; }
-            #exercise-plan-container .space-y-5 { space-y: 0 !important; display: flex; flex-direction: column; gap: 4px !important; }
-            #exercise-plan-container .space-y-1\\.5 { space-y: 0 !important; display: flex; flex-direction: column; gap: 1px !important; }
             #exercise-plan-container .p-2 { padding: 2px !important; border-width: 1px !important; }
             #exercise-plan-container h4 { margin-bottom: 1px !important; padding-bottom: 1px !important; }
             
@@ -281,23 +272,16 @@
 
         // ==========================================
         // APP IMAGES DICTIONARY
-        // Pointing directly to your local file uploads.
-        // Keep these images in the same folder as the index.html file!
         // ==========================================
         const appImages = {
-            // Activity Levels
             sedentary: 'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=200&q=80',
             lightlyActive: 'https://images.unsplash.com/photo-1536922246289-88c42f957773?auto=format&fit=crop&w=200&q=80',
             moderatelyActive: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=200&q=80',
             veryActive: 'https://images.unsplash.com/photo-1558611848-73f7eb4001a1?auto=format&fit=crop&w=200&q=80',
             extraActive: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=200&q=80',
-            
-            // Interval Walking & Cardio
             intervalWalking: './interval_walking.jpeg',
             joggingVsRunning: './jogging_vs_running.jpeg',
             skaters: './skaters.jpeg',
-            
-            // Exercises (Bodyweight / Weight Loss / Maintenance)
             squatBW: './air_squat.jpeg',
             jumpSquat: './jump_squat.jpeg',
             pushupBW: './standard_pushup.jpeg',
@@ -318,8 +302,6 @@
             plankVariations: './plank_variations.jpeg',
             plankReachUnder: './plank_reach_under.jpeg',
             tricepDips: './tricep_dips.jpeg',
-            
-            // Exercises (Bulking/Weighted/Advanced)
             squatHeavy: './bulgarian_split_squat.jpeg',
             backpackLunge: './backpack_lunge.jpeg',
             backpackSquat: './backpack_squat.jpeg',
@@ -335,10 +317,8 @@
             bicepCurls: './bicep_curls.jpeg',
             accessoryHeavy: './towel_hamstring_curl.jpeg'
         };
-        // ==========================================
 
         const foodDatabase = {
-            // General & Traditional Foods
             "White Rice, Cooked (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 45, protein: 4.3, fat: 0.4, cals: 205 },
             "White Rice, Cooked (Grams)": { baseAmount: 100, unit: 'g', carbs: 28, protein: 2.7, fat: 0.3, cals: 130 },
             "Brown Rice, Cooked (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 52, protein: 5.5, fat: 1.8, cals: 248 },
@@ -353,8 +333,6 @@
             "Mongo Soup (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 25, protein: 9, fat: 1, cals: 145 },
             "Pandesal (1 Piece)": { baseAmount: 1, unit: 'pc', carbs: 17, protein: 2.5, fat: 1, cals: 85 },
             "Taho (1 Cup)": { baseAmount: 1, unit: 'cup', carbs: 35, protein: 6, fat: 2, cals: 180 },
-            
-            // MyFitnessPal / Fast Food / Commercial Extraction Data
             "Jollibee Chickenjoy (1 pc)": { baseAmount: 1, unit: 'pc', carbs: 15, protein: 18, fat: 21, cals: 320 },
             "Jollibee Jolly Spaghetti": { baseAmount: 1, unit: 'pc', carbs: 50, protein: 12, fat: 9, cals: 330 },
             "Mang Inasal PM1 Pecho": { baseAmount: 1, unit: 'pc', carbs: 10, protein: 55, fat: 30, cals: 530 },
@@ -366,8 +344,6 @@
             "SkyFlakes Crackers (1 pack/25g)": { baseAmount: 1, unit: 'pc', carbs: 17, protein: 2, fat: 5, cals: 120 },
             "San Marino Corned Tuna (180g can)": { baseAmount: 1, unit: 'pc', carbs: 2, protein: 26, fat: 14, cals: 240 },
             "C2 Green Tea Apple (350ml)": { baseAmount: 1, unit: 'pc', carbs: 35, protein: 0, fat: 0, cals: 140 },
-            
-            // S&R Pizza Data
             "S&R Pizza (Cheese) - Large Slice": { baseAmount: 1, unit: 'pc', carbs: 58, protein: 26, fat: 20, cals: 515 },
             "S&R Pizza (Cheese) - Square Slice": { baseAmount: 1, unit: 'pc', carbs: 22, protein: 10, fat: 7, cals: 193 },
             "S&R Pizza (Garlic Shrimp) - Large Slice": { baseAmount: 1, unit: 'pc', carbs: 55, protein: 28, fat: 21, cals: 526 },
@@ -384,9 +360,6 @@
             "S&R Pizza (Cheesy Burger Deluxe) - Square Slice": { baseAmount: 1, unit: 'pc', carbs: 27, protein: 13, fat: 13, cals: 274 }
         };
 
-        // ==========================================
-        // EXERCISE WRITTEN GUIDES DICTIONARY
-        // ==========================================
         const exerciseGuides = {
             [appImages.intervalWalking]: "Walk at a brisk, challenging pace for 3 minutes, then slow down to a conversational pace for 3 minutes to recover. Keep your chest up and swing your arms.",
             [appImages.joggingVsRunning]: "Maintain a steady, controlled pace. Focus on landing softly on the mid-foot rather than striking hard with your heels to protect your joints.",
@@ -428,7 +401,7 @@
         };
 
         const App = () => {
-            const [step, setStep] = useState(0); // App starts at Intro
+            const [step, setStep] = useState(0);
             const [canProceed, setCanProceed] = useState(false);
             const [profile, setProfile] = useState({
                 firstName: '', lastName: '', age: '', gender: 'Male', weight: '', height: '', activityLevel: '1.2', goal: '', conditions: []
@@ -438,8 +411,8 @@
             const [quickFood, setQuickFood] = useState({ name: '', calories: '' });
             const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
             const [isSavingImage, setIsSavingImage] = useState(false);
-            const [enlargedImage, setEnlargedImage] = useState(null); // Lightbox state
-            const [warningPlayed, setWarningPlayed] = useState(false); // Sound state
+            const [enlargedImage, setEnlargedImage] = useState(null);
+            const [warningPlayed, setWarningPlayed] = useState(false);
             const [currentTime, setCurrentTime] = useState(new Date());
             
             const [quickTrackerActive, setQuickTrackerActive] = useState(false);
@@ -454,10 +427,9 @@
             }, []);
 
             useEffect(() => {
-                // Disclaimer timer logic for both Medical and Exercise disclaimers
                 if (step === 0.5 || step === 6) {
                     setCanProceed(false);
-                    const timer = setTimeout(() => setCanProceed(true), 3000); // Button appears after 3 seconds
+                    const timer = setTimeout(() => setCanProceed(true), 3000);
                     return () => clearTimeout(timer);
                 }
             }, [step]);
@@ -508,16 +480,16 @@
                 }
 
                 if (!profile.weight || !profile.height || !profile.age || !profile.goal) return null;
-                const w = parseFloat(profile.weight);
-                const h = parseFloat(profile.height);
-                const a = parseInt(profile.age);
+                const w = parseFloat(profile.weight) || 0;
+                const h = parseFloat(profile.height) || 0;
+                const a = parseInt(profile.age) || 0;
                 
-                const bmi = w / Math.pow(h / 100, 2);
+                const bmi = h > 0 ? (w / Math.pow(h / 100, 2)) : 0;
                 
                 let bmr = (10 * w) + (6.25 * h) - (5 * a);
                 bmr += profile.gender === 'Male' ? 5 : -161;
 
-                const tdee = bmr * parseFloat(profile.activityLevel);
+                const tdee = bmr * parseFloat(profile.activityLevel || '1.2');
                 const selectedGoal = goals.find(g => g.id === profile.goal);
                 let targetCalories = tdee + (selectedGoal ? selectedGoal.modifier : 0);
 
@@ -525,7 +497,7 @@
                 if (profile.gender === 'Male' && targetCalories < 1500) targetCalories = 1500;
 
                 const isDiabeticOrPcos = profile.conditions.includes('dm') || profile.conditions.includes('pcos');
-                const isKeto = profile.conditions.includes('dm') && selectedGoal.id === 'aggressive_loss';
+                const isKeto = profile.conditions.includes('dm') && selectedGoal?.id === 'aggressive_loss';
                 
                 let carbPct, proPct, fatPct;
                 if (isKeto) { carbPct = 0.10; proPct = 0.25; fatPct = 0.65; } 
@@ -606,7 +578,6 @@
                 fat: acc.fat + Number(curr.fat || 0)
             }), { cals: 0, carbs: 0, protein: 0, fat: 0 });
 
-            // Custom Audio Warning Engine (Works 100% Offline)
             const playAlertSound = () => {
                 try {
                     const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -615,20 +586,14 @@
                     const osc = ctx.createOscillator();
                     const gainNode = ctx.createGain();
                     
-                    // Create a loud "BUZZ" alarm sound
-                    osc.type = 'sawtooth'; // Harsher, buzzy waveform
-                    osc.frequency.setValueAtTime(120, ctx.currentTime); // Low buzzer pitch
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(120, ctx.currentTime);
                     
-                    // Start loud (volume at 80% instead of 5%)
                     gainNode.gain.setValueAtTime(0.8, ctx.currentTime);
-                    
-                    // Create an "eh-eh-eh" stuttering buzzer effect
                     gainNode.gain.setValueAtTime(0.01, ctx.currentTime + 0.15);
                     gainNode.gain.setValueAtTime(0.8, ctx.currentTime + 0.20);
                     gainNode.gain.setValueAtTime(0.01, ctx.currentTime + 0.35);
                     gainNode.gain.setValueAtTime(0.8, ctx.currentTime + 0.40);
-                    
-                    // Fade out sharply
                     gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
                     
                     osc.connect(gainNode);
@@ -638,7 +603,6 @@
                 } catch (e) { console.log("Audio failed", e); }
             };
 
-            // Detect Limit Breaches and Trigger Sound
             useEffect(() => {
                 if (stats && consumed) {
                     const isWarning = consumed.cals >= stats.targetCalories * 0.9 || 
@@ -649,7 +613,7 @@
                         playAlertSound();
                         setWarningPlayed(true);
                     } else if (!isWarning && warningPlayed) {
-                        setWarningPlayed(false); // Reset if they delete foods and drop back below limits
+                        setWarningPlayed(false);
                     }
                 }
             }, [consumed, stats, warningPlayed]);
@@ -660,8 +624,8 @@
                 document.body.classList.add('pdf-mode');
                 
                 const opt = {
-                    margin:       0.1, // Reduced margin to ensure fit
-                    filename:     `CHOP_Report_${profile.firstName}_${profile.lastName}.pdf`,
+                    margin:       0.1,
+                    filename:     `CHOP_Report_${profile.firstName || 'User'}_${profile.lastName || ''}.pdf`,
                     image:        { type: 'jpeg', quality: 0.98 },
                     html2canvas:  { scale: 2, useCORS: true },
                     jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
@@ -679,7 +643,7 @@
                 const element = document.getElementById('exercise-plan-container');
                 if (element) {
                     const btn = document.getElementById('save-img-btn');
-                    if (btn) btn.style.display = 'none'; // Temporarily hide the button from the image
+                    if (btn) btn.style.display = 'none';
                     
                     try {
                         const canvas = await window.html2canvas(element, { 
@@ -695,7 +659,7 @@
                         console.error("Failed to save image", err);
                     }
                     
-                    if (btn) btn.style.display = 'flex'; // Restore button
+                    if (btn) btn.style.display = 'flex';
                 }
                 setIsSavingImage(false);
             };
@@ -705,6 +669,56 @@
                     setQuickTrackerActive(true);
                     setStep(4);
                 }
+            };
+
+            const renderQuickTrackSetup = () => {
+                // Highly reliable deep-linking that bypasses iframe sandbox restrictions
+                const getMFPLink = () => {
+                    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                    if (/android/i.test(userAgent)) {
+                        // Play Store link: Android OS natively intercepts this
+                        return "https://play.google.com/store/apps/details?id=com.myfitnesspal.android";
+                    } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                        // App Store link: iOS natively intercepts this
+                        return "https://apps.apple.com/us/app/myfitnesspal-calorie-counter/id341232718";
+                    }
+                    // Desktop fallback
+                    return "https://www.myfitnesspal.com/";
+                };
+
+                return (
+                    <div className="max-w-md mx-auto space-y-4 animate-fade-in">
+                        <div className="mb-8 text-center">
+                            <h2 className="text-3xl font-bold mb-2">Quick Tracker Setup</h2>
+                            <p className="text-gray-500">Skip the clinical assessment and track calories directly.</p>
+                        </div>
+                        <div className="ios-card p-6 text-center">
+                            <label className="block text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Your Daily Calorie Target</label>
+                            <input className="ios-input text-center text-4xl font-bold text-purple-700 h-24" type="number" placeholder="E.G. 2000" value={quickTrackerCalories} onChange={e => setQuickTrackerCalories(e.target.value)} />
+                            <p className="text-xs text-gray-400 mt-4">Macros will be automatically balanced (50% Carbs, 25% Protein, 25% Fats).</p>
+                        </div>
+                        <button className="ios-button mt-8 !bg-purple-600" disabled={!quickTrackerCalories || quickTrackerCalories <= 0} onClick={startQuickTracker}>Open Yozuri Tracker</button>
+                        
+                        <div className="pt-6 pb-2 relative flex items-center">
+                            <div className="flex-grow border-t border-gray-300"></div>
+                            <span className="flex-shrink-0 mx-4 text-gray-400 text-xs font-bold uppercase tracking-widest">Or Use External App</span>
+                            <div className="flex-grow border-t border-gray-300"></div>
+                        </div>
+
+                        <a 
+                            href={getMFPLink()}
+                            target="_top"
+                            className="w-full bg-[#0066EE] text-white text-lg font-semibold py-4 px-6 rounded-2xl shadow-sm hover:bg-blue-700 active:scale-95 transition-all flex justify-center items-center gap-2 no-underline cursor-pointer"
+                        >
+                            <span>Open MyFitnessPal App</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                );
             };
 
             const renderIntro = () => (
@@ -729,21 +743,15 @@
                     </div>
                     
                     <div className="w-full max-w-sm space-y-4 animate-ios-buttons">
-                        <button 
-                            onClick={() => setStep(0.5)} 
-                            className="w-full bg-[#007aff] text-white text-lg font-semibold py-4 px-6 rounded-2xl shadow-lg hover:bg-blue-600 active:scale-95 transition-all flex justify-between items-center">
+                        <button onClick={() => setStep(0.5)} className="w-full bg-[#007aff] text-white text-lg font-semibold py-4 px-6 rounded-2xl shadow-lg hover:bg-blue-600 active:scale-95 transition-all flex justify-between items-center">
                             <span>Clinical Assessment</span>
                             <i className="lucide-chevron-right w-5 h-5 opacity-70"></i>
                         </button>
-                        <button 
-                            onClick={() => setStep(5)} 
-                            className="w-full bg-white text-[#007aff] border border-[#e5e5ea] text-lg font-semibold py-4 px-6 rounded-2xl shadow-sm hover:bg-gray-50 active:scale-95 transition-all flex justify-between items-center">
+                        <button onClick={() => setStep(5)} className="w-full bg-white text-[#007aff] border border-[#e5e5ea] text-lg font-semibold py-4 px-6 rounded-2xl shadow-sm hover:bg-gray-50 active:scale-95 transition-all flex justify-between items-center">
                             <span>Quick Calorie Tracker</span>
                             <i className="lucide-zap w-5 h-5 opacity-70"></i>
                         </button>
-                        <button 
-                            onClick={() => setStep(6)} 
-                            className="w-full bg-white text-emerald-600 border border-[#e5e5ea] text-lg font-semibold py-4 px-6 rounded-2xl shadow-sm hover:bg-emerald-50 active:scale-95 transition-all flex justify-between items-center mt-2">
+                        <button onClick={() => setStep(6)} className="w-full bg-white text-emerald-600 border border-[#e5e5ea] text-lg font-semibold py-4 px-6 rounded-2xl shadow-sm hover:bg-emerald-50 active:scale-95 transition-all flex justify-between items-center mt-2">
                             <span>Exercise Guides</span>
                             <i className="lucide-play-circle w-5 h-5 opacity-70"></i>
                         </button>
@@ -754,7 +762,6 @@
             const renderDisclaimer = () => (
                 <div className="max-w-md mx-auto space-y-6 animate-ios-intro mt-12 text-center px-4">
                     <div className="w-24 h-24 bg-red-100 text-red-600 rounded-full mx-auto flex items-center justify-center mb-6 shadow-sm border border-red-200">
-                        {/* Custom Medical Warning Icon */}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12">
                             <path d="M7.86 2h8.28L22 7.86v8.28L16.14 22H7.86L2 16.14V7.86L7.86 2z"></path>
                             <path d="M12 8v4"></path>
@@ -772,11 +779,7 @@
                     </div>
                     <div className="h-20 flex items-center justify-center mt-8">
                         {canProceed ? (
-                            <button 
-                                onClick={() => setStep(1)} 
-                                className="ios-button animate-ios-intro w-full shadow-lg">
-                                Proceed to Assessment
-                            </button>
+                            <button onClick={() => setStep(1)} className="ios-button animate-ios-intro w-full shadow-lg">Proceed to Assessment</button>
                         ) : (
                             <p className="text-sm text-red-400 font-medium animate-pulse">Please read the disclaimer carefully...</p>
                         )}
@@ -831,11 +834,7 @@
                     </div>
                     <div className="h-20 flex items-center justify-center mt-8">
                         {canProceed ? (
-                            <button 
-                                onClick={() => setStep(7)} 
-                                className="w-full bg-emerald-500 text-white text-lg font-semibold py-4 px-6 rounded-2xl shadow-lg hover:bg-emerald-600 active:scale-95 transition-all animate-ios-intro">
-                                I Understand
-                            </button>
+                            <button onClick={() => setStep(7)} className="w-full bg-emerald-500 text-white text-lg font-semibold py-4 px-6 rounded-2xl shadow-lg hover:bg-emerald-600 active:scale-95 transition-all animate-ios-intro">I Understand</button>
                         ) : (
                             <p className="text-sm text-emerald-500 font-medium animate-pulse">Please read safety instructions...</p>
                         )}
@@ -847,7 +846,6 @@
                 <div className="glass-nav sticky top-0 z-50 px-6 py-4 mb-6">
                     <div className="max-w-2xl mx-auto flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            {/* Stylish iOS Style Back Buttons */}
                             {(step === 0.5 || step === 1 || step === 5 || step === 6 || step === 7) && (
                                 <button onClick={() => setStep(0)} className="flex items-center gap-1 text-[#007aff] bg-[#007aff]/10 hover:bg-[#007aff]/20 active:scale-95 px-3 py-1.5 rounded-full font-semibold transition-all no-print shadow-sm">
                                     <i className="lucide-chevron-left w-5 h-5 -ml-1"></i> Back
@@ -869,7 +867,6 @@
                                 </button>
                             )}
                             
-                            {/* Hidden on steps 0.5, 1, 2, 3, 6 */}
                             {(step === 4 || step === 5 || step === 7) && (
                                 <div>
                                     <p className="text-sm font-bold text-gray-900 mt-1 uppercase tracking-wide">By Kenneth Roy Ocampo, RN 2026</p>
@@ -997,29 +994,13 @@
                 );
             }
 
-            const renderQuickTrackSetup = () => (
-                <div className="max-w-md mx-auto space-y-4 animate-fade-in">
-                    <div className="mb-8 text-center">
-                        <h2 className="text-3xl font-bold mb-2">Quick Tracker Setup</h2>
-                        <p className="text-gray-500">Skip the clinical assessment and track calories directly.</p>
-                    </div>
-                    <div className="ios-card p-6 text-center">
-                        <label className="block text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Your Daily Calorie Target</label>
-                        <input className="ios-input text-center text-4xl font-bold text-purple-700 h-24" type="number" placeholder="E.G. 2000" value={quickTrackerCalories} onChange={e => setQuickTrackerCalories(e.target.value)} />
-                        <p className="text-xs text-gray-400 mt-4">Macros will be automatically balanced (50% Carbs, 25% Protein, 25% Fats).</p>
-                    </div>
-                    <button className="ios-button mt-8 !bg-purple-600" disabled={!quickTrackerCalories || quickTrackerCalories <= 0} onClick={startQuickTracker}>Open Tracker</button>
-                </div>
-            );
-
             const renderDashboard = () => {
                 const isBulking = profile.goal === 'gain' || profile.goal === 'aggressive_gain';
                 const isLoss = profile.goal === 'loss' || profile.goal === 'aggressive_loss';
                 const isHeart = profile.conditions.includes('heart');
                 const isAsthma = profile.conditions.includes('asthma');
-                const isSenior = parseInt(profile.age) >= 60;
+                const isSenior = parseInt(profile.age || '0') >= 60;
 
-                // Dynamic Exercise Routine Generator
                 let exerciseList = [];
                 if (isHeart || isAsthma || isSenior) {
                     exerciseList = [
@@ -1071,11 +1052,9 @@
                     ];
                 }
 
-                // Daily Text Mappers
                 const liftDetails = exerciseList.filter(e => !['Interval Walk', 'Jogging/Cardio'].includes(e.name)).map(e => `${e.name} (${e.reps})`).join(' • ');
                 const cardioDetails = exerciseList.filter(e => ['Interval Walk', 'Jogging/Cardio'].includes(e.name)).map(e => `${e.name} (${e.reps})`).join(' • ') || "Walk (30-45 Mins)";
                 
-                // Dynamic Weekly Schedule Generator based on Goal & Health Conditions
                 let weeklySchedule = [];
                 if (isHeart) {
                     weeklySchedule = [
@@ -1107,7 +1086,7 @@
                         { day: "Day 6", plan: "Rest", details: "Full Rest" },
                         { day: "Day 7", plan: "Walk", details: "Active Recovery (Stretching / Yoga)" }
                     ];
-                } else { // Weight Loss / Maintenance
+                } else {
                     weeklySchedule = [
                         { day: "Day 1", plan: "Exercise", details: liftDetails },
                         { day: "Day 2", plan: "Walk", details: cardioDetails },
@@ -1122,7 +1101,7 @@
                 return (
                     <div id="dashboard-content" className="max-w-2xl mx-auto space-y-8 pb-20">
                         
-                        {/* Medical Header: Visible ONLY in Print/PDF Mode */}
+                        {/* Medical Header */}
                         {!quickTrackerActive && (
                         <div className="print-only print-medical-header">
                             <h1>Yozuri Philippines Project - Clinical Health Optimization Program</h1>
@@ -1132,9 +1111,9 @@
                                 <div><span>Age / Gender:</span> {profile.age} / {profile.gender}</div>
                                 <div><span>Attending:</span> Kenneth Roy Ocampo, RN 2026</div>
                                 <div><span>Weight / Height:</span> {profile.weight} kg / {profile.height} cm</div>
-                                <div><span>Primary Goal:</span> {goals.find(g=>g.id===profile.goal)?.label}</div>
-                                <div><span>Activity Level:</span> {activityLevels.find(a=>a.id===profile.activityLevel)?.label}</div>
-                                <div><span>Target Intake:</span> {stats?.targetCalories} kcal/day</div>
+                                <div><span>Primary Goal:</span> {goals.find(g=>g.id===profile.goal)?.label || 'N/A'}</div>
+                                <div><span>Activity Level:</span> {activityLevels.find(a=>a.id===profile.activityLevel)?.label || 'N/A'}</div>
+                                <div><span>Target Intake:</span> {stats?.targetCalories || 0} kcal/day</div>
                                 <div className="col-span-2">
                                     <span>Reported Conditions:</span> {profile.conditions.length > 0 && !profile.conditions.includes('none') ? profile.conditions.map(c => conditionsList.find(l=>l.id===c)?.label).filter(Boolean).join(', ') : 'None Reported'}
                                 </div>
@@ -1150,7 +1129,7 @@
                         ) : (
                             <div className="text-center mb-8 no-print">
                                 <h2 className="text-3xl font-bold text-purple-700">Quick Calorie Tracker</h2>
-                                <p className="text-gray-500 text-lg">Daily Target: {stats?.targetCalories} kcal</p>
+                                <p className="text-gray-500 text-lg">Daily Target: {stats?.targetCalories || 0} kcal</p>
                             </div>
                         )}
 
@@ -1163,41 +1142,40 @@
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                                 <div className="bg-gray-50 p-4 rounded-xl text-center">
                                     <p className="text-xs text-gray-500 font-medium uppercase">BMI</p>
-                                    <p className="text-2xl font-bold">{stats.bmi}</p>
-                                    <p className="text-xs font-medium text-blue-500">{stats.bmiCategory}</p>
+                                    <p className="text-2xl font-bold">{stats?.bmi || '0'}</p>
+                                    <p className="text-xs font-medium text-blue-500">{stats?.bmiCategory || 'N/A'}</p>
                                 </div>
                                 <div className="bg-gray-50 p-4 rounded-xl text-center">
                                     <p className="text-xs text-gray-500 font-medium uppercase">BMR</p>
-                                    <p className="text-2xl font-bold">{stats.bmr}</p>
+                                    <p className="text-2xl font-bold">{stats?.bmr || 0}</p>
                                     <p className="text-xs font-medium">kcal/day</p>
                                 </div>
                                 <div className="bg-gray-50 p-4 rounded-xl text-center">
                                     <p className="text-xs text-gray-500 font-medium uppercase">TDEE</p>
-                                    <p className="text-2xl font-bold">{stats.tdee}</p>
+                                    <p className="text-2xl font-bold">{stats?.tdee || 0}</p>
                                     <p className="text-xs font-medium">kcal/day</p>
                                 </div>
                                 <div className="bg-blue-50 p-4 rounded-xl text-center border border-blue-100">
                                     <p className="text-xs text-blue-600 font-bold uppercase">Target Intake</p>
-                                    <p className="text-3xl font-bold text-blue-700">{stats.targetCalories}</p>
+                                    <p className="text-3xl font-bold text-blue-700">{stats?.targetCalories || 0}</p>
                                     <p className="text-xs font-medium text-blue-600">kcal/day</p>
                                 </div>
                             </div>
                             <div className="grid grid-cols-3 gap-4">
                                 <div className="text-center p-3 border-t border-gray-100">
                                     <p className="text-sm text-gray-500 font-medium mb-1">Carbs</p>
-                                    <p className="text-xl font-bold text-amber-500">{stats.macros.carbs}g</p>
+                                    <p className="text-xl font-bold text-amber-500">{stats?.macros?.carbs || 0}g</p>
                                 </div>
                                 <div className="text-center p-3 border-t border-gray-100">
                                     <p className="text-sm text-gray-500 font-medium mb-1">Protein</p>
-                                    <p className="text-xl font-bold text-red-500">{stats.macros.protein}g</p>
+                                    <p className="text-xl font-bold text-red-500">{stats?.macros?.protein || 0}g</p>
                                 </div>
                                 <div className="text-center p-3 border-t border-gray-100">
                                     <p className="text-sm text-gray-500 font-medium mb-1">Fats</p>
-                                    <p className="text-xl font-bold text-teal-500">{stats.macros.fat}g</p>
+                                    <p className="text-xl font-bold text-teal-500">{stats?.macros?.fat || 0}g</p>
                                 </div>
                             </div>
 
-                            {/* Clinical Definitions Box */}
                             <div className="mt-4 bg-blue-50/50 p-4 rounded-xl border border-blue-100 text-sm text-gray-700 space-y-2">
                                 <h4 className="font-bold text-blue-800 mb-2 uppercase tracking-wide text-xs">📖 Clinical Definitions</h4>
                                 <p><strong className="text-gray-900">BMI (Body Mass Index):</strong> A screening metric to categorize weight relative to height.</p>
@@ -1216,31 +1194,31 @@
                             <div className="professional-print-stats">
                                 <div className="stat-box">
                                     <div className="stat-title">BMI</div>
-                                    <div className="stat-value">{stats.bmi} <span>({stats.bmiCategory})</span></div>
+                                    <div className="stat-value">{stats?.bmi || 0} <span>({stats?.bmiCategory || ''})</span></div>
                                 </div>
                                 <div className="stat-box">
                                     <div className="stat-title">BMR</div>
-                                    <div className="stat-value">{stats.bmr} <span>kcal/day</span></div>
+                                    <div className="stat-value">{stats?.bmr || 0} <span>kcal/day</span></div>
                                 </div>
                                 <div className="stat-box">
                                     <div className="stat-title">TDEE</div>
-                                    <div className="stat-value">{stats.tdee} <span>kcal/day</span></div>
+                                    <div className="stat-value">{stats?.tdee || 0} <span>kcal/day</span></div>
                                 </div>
                                 <div className="stat-box" style={{backgroundColor: '#f0f8ff', borderColor: '#0056b3'}}>
                                     <div className="stat-title">Target Intake</div>
-                                    <div className="stat-value">{stats.targetCalories} <span>kcal/day</span></div>
+                                    <div className="stat-value">{stats?.targetCalories || 0} <span>kcal/day</span></div>
                                 </div>
                             </div>
 
                             <div className="professional-print-macros">
                                 <div className="macro-box">
-                                    <span className="macro-title">Carbs: </span><span className="macro-value">{stats.macros.carbs}g</span>
+                                    <span className="macro-title">Carbs: </span><span className="macro-value">{stats?.macros?.carbs || 0}g</span>
                                 </div>
                                 <div className="macro-box">
-                                    <span className="macro-title">Protein: </span><span className="macro-value">{stats.macros.protein}g</span>
+                                    <span className="macro-title">Protein: </span><span className="macro-value">{stats?.macros?.protein || 0}g</span>
                                 </div>
                                 <div className="macro-box">
-                                    <span className="macro-title">Fats: </span><span className="macro-value">{stats.macros.fat}g</span>
+                                    <span className="macro-title">Fats: </span><span className="macro-value">{stats?.macros?.fat || 0}g</span>
                                 </div>
                             </div>
 
@@ -1256,7 +1234,6 @@
                             <h3 className="font-semibold text-lg text-red-500 mb-4 flex items-center gap-2">
                                 ⚕️ Clinical Health Teaching & Dietary Interventions
                             </h3>
-                            {/* Updated to use print-health-list for compact 2-column print layout */}
                             <ul className="space-y-4 text-gray-800 print-health-list">
                                 {profile.conditions.includes('htn') && (
                                     <li className="flex gap-3"><div className="mt-1 w-2 h-2 rounded-full bg-red-500 shrink-0"></div>
@@ -1286,7 +1263,7 @@
                         </div>
                         )}
 
-                        {/* Exercise Plan - PROFESSIONAL SIDE-BY-SIDE LAYOUT */}
+                        {/* Exercise Plan */}
                         {!quickTrackerActive && (
                         <div id="exercise-plan-container" className="ios-card p-6 !mt-2 bg-white relative border border-gray-100">
                             <div className="flex items-center justify-between mb-4 border-b border-gray-100 pb-3">
@@ -1305,7 +1282,6 @@
                             )}
 
                             <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-6 print:gap-3">
-                                {/* LEFT COLUMN: List of Activity and Schedule */}
                                 <div className="space-y-5">
                                     <div>
                                         <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">📅 Weekly Schedule</h4>
@@ -1328,7 +1304,6 @@
 
                                     <div>
                                         <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">📋 Activity Instructions</h4>
-                                        {/* Updated to use print-instructions-list for tight text spacing */}
                                         <ul className="text-[11px] md:text-xs text-gray-600 space-y-2 list-disc pl-4 pr-2 print-instructions-list">
                                             <li><strong>Interval Walking:</strong> Walk fast for 3 minutes (until you are breathing heavily), then walk slowly for 3 minutes to catch your breath. Repeat this 5 times total.</li>
                                             <li><strong>Strength Exercises:</strong> Do each movement slowly and with control to avoid injury. {isBulking ? "Use a heavy backpack or large water jugs to challenge your muscles." : "Use your body weight. Follow the easier variations in the pictures if needed."}</li>
@@ -1338,7 +1313,6 @@
                                     </div>
                                 </div>
 
-                                {/* RIGHT COLUMN: Pictures of Exercise */}
                                 <div className="flex flex-col h-full">
                                     <h4 className="font-bold text-sm text-gray-800 mb-3 border-b border-gray-100 pb-1 uppercase tracking-wider">
                                         <span className="no-print">📸 Visual Reference Guide</span>
@@ -1346,7 +1320,6 @@
                                     </h4>
                                     
                                     <div className="grid grid-cols-2 exercise-img-grid gap-3">
-                                        {/* Dynamically mapped based on the 4-tier condition logic above */}
                                         {exerciseList.map((ex, i) => (
                                             <div 
                                                 key={i} 
@@ -1363,7 +1336,6 @@
                                     </div>
                                     <p className="text-[10px] text-gray-400 mt-2 text-center italic no-print">* Tap on any image to view written guide</p>
                                     
-                                    {/* QR Code placed at the bottom right of the page for print */}
                                     <div className="print-only mt-auto pt-3 flex justify-end">
                                         <div className="text-center border border-gray-200 p-2.5 rounded-xl bg-white flex flex-col items-center shadow-sm">
                                             <img src="./qr_access.jpg" alt="QR Access" className="w-28 h-28 object-contain" />
@@ -1375,7 +1347,7 @@
                         </div>
                         )}
 
-                        {/* Food Tracker Engine - Always shows, but hidden entirely on Print to save space */}
+                        {/* Food Tracker Engine */}
                         <div className="ios-card p-6 no-print">
                             <h3 className="font-semibold text-lg text-purple-600 mb-4 flex items-center gap-2">
                                 🍽️ Automated Daily Intake Tracker
@@ -1383,29 +1355,28 @@
                             
                             <div className="bg-gray-50 rounded-xl p-4 mb-6 border border-gray-200">
                                 <div className="flex justify-between items-end mb-2">
-                                    <span className="font-semibold text-sm">{stats.targetCalories - consumed.cals < 0 ? 'Excess Calories' : 'Calories Remaining'}</span>
-                                    <span className={`text-3xl font-bold ${stats.targetCalories - consumed.cals < 0 ? 'text-red-600' : 'text-purple-700'}`}>
-                                        {stats.targetCalories - consumed.cals < 0 ? `+${Math.abs(stats.targetCalories - consumed.cals)}` : stats.targetCalories - consumed.cals}
+                                    <span className="font-semibold text-sm">{(stats?.targetCalories || 0) - consumed.cals < 0 ? 'Excess Calories' : 'Calories Remaining'}</span>
+                                    <span className={`text-3xl font-bold ${(stats?.targetCalories || 0) - consumed.cals < 0 ? 'text-red-600' : 'text-purple-700'}`}>
+                                        {(stats?.targetCalories || 0) - consumed.cals < 0 ? `+${Math.abs((stats?.targetCalories || 0) - consumed.cals)}` : (stats?.targetCalories || 0) - consumed.cals}
                                     </span>
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-3 mb-1">
-                                    <div className={`h-3 rounded-full transition-all ${consumed.cals > stats.targetCalories ? 'bg-red-500' : 'bg-purple-500'}`} style={{width: `${Math.min(100, (consumed.cals/stats.targetCalories)*100)}%`}}></div>
+                                    <div className={`h-3 rounded-full transition-all ${consumed.cals > (stats?.targetCalories || 0) ? 'bg-red-500' : 'bg-purple-500'}`} style={{width: `${Math.min(100, (consumed.cals/(stats?.targetCalories || 1))*100)}%`}}></div>
                                 </div>
                                 <div className="flex justify-between text-xs text-gray-500 mt-2 font-medium">
-                                    <span>Carbs: <span className={consumed.carbs > stats.macros.carbs ? 'text-red-600 font-bold' : 'text-amber-600'}>{Math.round(consumed.carbs)} / {stats.macros.carbs}g</span></span>
-                                    <span>Pro: <span className={consumed.protein > stats.macros.protein ? 'text-red-600 font-bold' : 'text-red-600'}>{Math.round(consumed.protein)} / {stats.macros.protein}g</span></span>
-                                    <span>Fat: <span className={consumed.fat > stats.macros.fat ? 'text-red-600 font-bold' : 'text-teal-600'}>{Math.round(consumed.fat)} / {stats.macros.fat}g</span></span>
+                                    <span>Carbs: <span className={consumed.carbs > (stats?.macros?.carbs || 0) ? 'text-red-600 font-bold' : 'text-amber-600'}>{Math.round(consumed.carbs)} / {stats?.macros?.carbs || 0}g</span></span>
+                                    <span>Pro: <span className={consumed.protein > (stats?.macros?.protein || 0) ? 'text-red-600 font-bold' : 'text-red-600'}>{Math.round(consumed.protein)} / {stats?.macros?.protein || 0}g</span></span>
+                                    <span>Fat: <span className={consumed.fat > (stats?.macros?.fat || 0) ? 'text-red-600 font-bold' : 'text-teal-600'}>{Math.round(consumed.fat)} / {stats?.macros?.fat || 0}g</span></span>
                                 </div>
                                 
-                                {/* Dynamic Macro & Calorie Warning Alerts */}
                                 {(() => {
                                     let warnings = [];
-                                    if (consumed.cals >= stats.targetCalories * 0.9) warnings.push("Calories");
-                                    if (consumed.carbs >= stats.macros.carbs * 0.9) warnings.push("Carbs");
-                                    if (consumed.protein >= stats.macros.protein * 0.9) warnings.push("Protein");
-                                    if (consumed.fat >= stats.macros.fat * 0.9) warnings.push("Fats");
+                                    if (consumed.cals >= (stats?.targetCalories || 0) * 0.9) warnings.push("Calories");
+                                    if (consumed.carbs >= (stats?.macros?.carbs || 0) * 0.9) warnings.push("Carbs");
+                                    if (consumed.protein >= (stats?.macros?.protein || 0) * 0.9) warnings.push("Protein");
+                                    if (consumed.fat >= (stats?.macros?.fat || 0) * 0.9) warnings.push("Fats");
                                     
-                                    const isOverLimit = consumed.cals > stats.targetCalories || consumed.carbs > stats.macros.carbs || consumed.protein > stats.macros.protein || consumed.fat > stats.macros.fat;
+                                    const isOverLimit = consumed.cals > (stats?.targetCalories || 0) || consumed.carbs > (stats?.macros?.carbs || 0) || consumed.protein > (stats?.macros?.protein || 0) || consumed.fat > (stats?.macros?.fat || 0);
 
                                     if (warnings.length > 0) {
                                         return (
@@ -1426,7 +1397,6 @@
                                 })()}
                             </div>
 
-                            {/* Option 1: Database Add */}
                             <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
                                 <h4 className="font-bold text-sm text-purple-700 mb-1">Option 1: Food Database</h4>
                                 <p className="text-xs text-gray-500 mb-3">Select a food to auto-calculate locked macros.</p>
@@ -1472,7 +1442,6 @@
                                     </select>
                                 </div>
                                 <div className="flex gap-2 items-center bg-gray-50 p-2 rounded-lg">
-                                    {/* Macros are now Read-Only UI elements */}
                                     <div className="ios-input !p-2 text-sm w-full bg-gray-100 text-gray-500 text-center select-none">C: {newFood.carbs || 0}g</div>
                                     <div className="ios-input !p-2 text-sm w-full bg-gray-100 text-gray-500 text-center select-none">P: {newFood.protein || 0}g</div>
                                     <div className="ios-input !p-2 text-sm w-full bg-gray-100 text-gray-500 text-center select-none">F: {newFood.fat || 0}g</div>
@@ -1481,7 +1450,6 @@
                                 </div>
                             </div>
 
-                            {/* Option 2: Quick Add Calories */}
                             <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6">
                                 <h4 className="font-bold text-sm text-blue-600 mb-1">Option 2: Quick Add Calories</h4>
                                 <p className="text-xs text-gray-500 mb-3">Add unlisted foods. Macros will not be tracked, only calories.</p>
@@ -1492,7 +1460,6 @@
                                 </div>
                             </div>
 
-                            {/* Log Display */}
                             <div className="space-y-2">
                                 {foodLog.map(f => (
                                     <div key={f.id} className="flex justify-between items-center p-3 bg-white border border-gray-100 rounded-lg text-sm shadow-sm">
@@ -1586,7 +1553,6 @@
                             <h2 className="text-3xl font-extrabold uppercase tracking-widest text-emerald-600">Exercise Library</h2>
                             <p className="text-gray-500 text-sm mt-2">Tap any image to view written instructions and proper form.</p>
                         </div>
-                        
                         {renderGrid("Cardio & Agility", cardio)}
                         {renderGrid("Bodyweight & Rehab", bodyweight)}
                         {renderGrid("Weighted & Advanced", weighted)}
@@ -1609,35 +1575,18 @@
                         {step === 7 && renderExerciseLibrary()}
                     </div>
 
-                    {/* Fullscreen Image & Guide Lightbox Overlay */}
                     {enlargedImage && (
-                        <div 
-                            className="fixed inset-0 z-[100] bg-black/90 flex flex-col items-center justify-center p-4 cursor-pointer no-print backdrop-blur-sm"
-                            onClick={() => setEnlargedImage(null)}
-                        >
-                            <div 
-                                className="bg-white rounded-2xl overflow-hidden max-w-sm w-full shadow-2xl cursor-default flex flex-col animate-ios-intro" 
-                                onClick={(e) => e.stopPropagation()}
-                            >
+                        <div className="fixed inset-0 z-[100] bg-black/90 flex flex-col items-center justify-center p-4 cursor-pointer no-print backdrop-blur-sm" onClick={() => setEnlargedImage(null)}>
+                            <div className="bg-white rounded-2xl overflow-hidden max-w-sm w-full shadow-2xl cursor-default flex flex-col animate-ios-intro" onClick={(e) => e.stopPropagation()}>
                                 <div className="relative bg-gray-100 flex justify-center p-4">
-                                    <img 
-                                        src={enlargedImage.img} 
-                                        alt={enlargedImage.name} 
-                                        className="max-h-[45vh] object-contain rounded-xl" 
-                                    />
+                                    <img src={enlargedImage.img} alt={enlargedImage.name} className="max-h-[45vh] object-contain rounded-xl" />
                                 </div>
                                 <div className="p-6">
                                     <h3 className="text-xl font-bold text-gray-900 mb-2">{enlargedImage.name}</h3>
-                                    <p className="text-sm text-gray-600 leading-relaxed font-medium">
-                                        {enlargedImage.guide}
-                                    </p>
+                                    <p className="text-sm text-gray-600 leading-relaxed font-medium">{enlargedImage.guide}</p>
                                 </div>
                             </div>
-                            
-                            <button 
-                                className="absolute top-6 right-6 text-white bg-black/50 rounded-full p-2 hover:bg-white/20 transition"
-                                onClick={() => setEnlargedImage(null)}
-                            >
+                            <button className="absolute top-6 right-6 text-white bg-black/50 rounded-full p-2 hover:bg-white/20 transition" onClick={() => setEnlargedImage(null)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                             </button>
                             <p className="text-gray-300 mt-4 text-sm tracking-wide font-medium">Tap outside to close</p>
